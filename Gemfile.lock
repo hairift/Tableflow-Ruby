@@ -210,10 +210,10 @@ GEM
       tsort
     reline (0.7.0)
       io-console (~> 0.5)
-    rqrcode (2.2.0)
+    rqrcode (3.2.0)
       chunky_png (~> 1.0)
-      rqrcode_core (~> 1.0)
-    rqrcode_core (1.2.0)
+      rqrcode_core (~> 2.0)
+    rqrcode_core (2.1.0)
     securerandom (0.4.1)
     sqlite3 (2.10.2-x64-mingw-ucrt)
     sqlite3 (2.10.2-x86_64-linux-gnu)
