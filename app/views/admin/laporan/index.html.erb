@@ -1,0 +1,55 @@
+<% content_for :title, "Laporan — Panel Tableflow-Scan" %>
+
+<div>
+  <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Pengelolaan</p>
+  <h1 class="judul-display mt-1 text-3xl">Laporan pendapatan</h1>
+</div>
+
+<div class="kartu mt-6 p-5">
+  <%= form_with url: admin_laporan_index_path, method: :get, class: "flex flex-wrap items-end gap-4" do |form| %>
+    <div><label class="label-form">Dari tanggal</label><%= form.date_field :dari, value: @dari, class: "kolom-form" %></div>
+    <div><label class="label-form">Sampai tanggal</label><%= form.date_field :sampai, value: @sampai, class: "kolom-form" %></div>
+    <%= form.button "Tampilkan", class: "tombol tombol-gelap !text-xs" %>
+    <%= link_to ekspor_admin_laporan_index_path(dari: @dari, sampai: @sampai), class: "tombol tombol-garis !text-xs" do %>
+      <%= ikon "unduh", kelas: "h-4 w-4" %> Ekspor CSV
+    <% end %>
+  <% end %>
+</div>
+
+<% if @ringkasan[:error] %>
+  <p class="mt-4 rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm text-merah"><%= @ringkasan[:error] %></p>
+<% else %>
+  <div class="mt-6 grid gap-4 sm:grid-cols-3">
+    <div class="kartu p-5"><p class="text-xs text-tinta/50">Jumlah pesanan</p><p class="judul-display mt-2 text-3xl"><%= @ringkasan[:jumlah_pesanan] %></p></div>
+    <div class="kartu p-5"><p class="text-xs text-tinta/50">Total pendapatan</p><p class="judul-display mt-2 text-3xl text-terakota">Rp <%= number_with_delimiter(@ringkasan[:total_pendapatan].to_i) %></p></div>
+    <div class="kartu p-5"><p class="text-xs text-tinta/50">Estimasi laba</p><p class="judul-display mt-2 text-3xl text-hijau">Rp <%= number_with_delimiter(@ringkasan[:estimasi_margin][:laba].to_i) %></p></div>
+  </div>
+
+  <div class="mt-6 grid gap-6 lg:grid-cols-2">
+    <div class="kartu overflow-hidden">
+      <div class="border-b border-garis px-5 py-4"><h2 class="text-sm font-bold">Produk terlaris</h2></div>
+      <table class="tabel-data">
+        <thead><tr><th>Produk</th><th>Terjual</th><th>Total</th></tr></thead>
+        <tbody>
+          <% @ringkasan[:produk_terlaris].each do |produk| %>
+            <tr><td class="font-bold"><%= produk[:nama] %></td><td><%= produk[:jumlah] %></td><td class="bilangan">Rp <%= number_with_delimiter(produk[:total].to_i) %></td></tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="kartu overflow-hidden">
+      <div class="border-b border-garis px-5 py-4"><h2 class="text-sm font-bold">Pendapatan per metode</h2></div>
+      <table class="tabel-data">
+        <thead><tr><th>Metode</th><th>Total</th></tr></thead>
+        <tbody>
+          <% @ringkasan[:pendapatan_per_metode].each do |metode, jumlah| %>
+            <tr><td class="font-bold uppercase"><%= metode %></td><td class="bilangan">Rp <%= number_with_delimiter(jumlah.to_i) %></td></tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="border-t border-garis px-5 py-4 text-xs text-tinta/50">
+        Modal terhitung: Rp <%= number_with_delimiter(@ringkasan[:estimasi_margin][:modal].to_i) %>
+      </div>
+    </div>
+  </div>
+<% end %>

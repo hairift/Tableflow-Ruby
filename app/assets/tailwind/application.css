@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+
+  --color-tinta: #16232e;
+  --color-tinta-2: #223542;
+  --color-krim: #faf6ef;
+  --color-krim-2: #f1e9dc;
+  --color-garis: #e2d8c8;
+  --color-terakota: #e56b4f;
+  --color-terakota-gelap: #c4543a;
+  --color-emas: #d8a24a;
+  --color-hijau: #3f7d6e;
+  --color-merah: #b4463b;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-krim);
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.judul-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.kartu {
+  background: #ffffff;
+  border: 1px solid var(--color-garis);
+  border-radius: 14px;
+}
+
+.kartu-tipis {
+  background: #ffffff;
+  border: 1px solid var(--color-garis);
+  border-radius: 10px;
+}
+
+.tombol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.tombol:active {
+  transform: translateY(1px);
+}
+
+.tombol-utama {
+  background: var(--color-terakota);
+  color: #ffffff;
+}
+
+.tombol-utama:hover {
+  background: var(--color-terakota-gelap);
+}
+
+.tombol-garis {
+  background: #ffffff;
+  color: var(--color-tinta);
+  border-color: var(--color-garis);
+}
+
+.tombol-garis:hover {
+  background: var(--color-krim-2);
+}
+
+.tombol-gelap {
+  background: var(--color-tinta);
+  color: #ffffff;
+}
+
+.tombol-gelap:hover {
+  background: var(--color-tinta-2);
+}
+
+.tombol-bahaya {
+  background: #ffffff;
+  color: var(--color-merah);
+  border-color: #e9c9c4;
+}
+
+.tombol-bahaya:hover {
+  background: #fdf1ef;
+}
+
+.label-form {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6b7680;
+  margin-bottom: 0.35rem;
+}
+
+.kolom-form {
+  width: 100%;
+  border: 1px solid var(--color-garis);
+  border-radius: 10px;
+  background: #ffffff;
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-tinta);
+  outline: none;
+}
+
+.kolom-form:focus {
+  border-color: var(--color-terakota);
+  box-shadow: 0 0 0 3px rgba(229, 107, 79, 0.12);
+}
+
+.tabel-data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.tabel-data th {
+  text-align: left;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6b7680;
+  border-bottom: 1px solid var(--color-garis);
+  white-space: nowrap;
+}
+
+.tabel-data td {
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid #f0eae0;
+  vertical-align: middle;
+}
+
+.tabel-data tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.lencana {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.lencana-netral { background: #f1e9dc; color: #5c6771; }
+.lencana-emas { background: #fbf0d9; color: #8a641d; }
+.lencana-hijau { background: #e2f0ec; color: #2f6459; }
+.lencana-merah { background: #fae3df; color: #9b3d33; }
+.lencana-biru { background: #e5edf4; color: #3d5f7d; }
+
+.bilangan {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.pemisah {
+  height: 1px;
+  background: var(--color-garis);
+}
+
+/* Bilah gulir halus pada panel dengan konten panjang. */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d8cabb; border-radius: 999px; border: 3px solid var(--color-krim); }

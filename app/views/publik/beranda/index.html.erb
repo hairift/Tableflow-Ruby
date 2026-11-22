@@ -1,0 +1,121 @@
+<% content_for :title, "Tableflow-Scan — Pesan dari meja Anda" %>
+
+<section class="mx-auto grid max-w-5xl items-center gap-12 px-5 pb-10 pt-14 lg:grid-cols-2 lg:pt-20">
+  <div>
+    <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-garis bg-white px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-tinta/60">
+      <%= ikon "pindai", kelas: "h-4 w-4 text-terakota" %>
+      Sistem pemesanan meja
+    </div>
+
+    <h1 class="judul-display text-5xl leading-[1.05] text-tinta sm:text-6xl">
+      Pesan dari meja.<br>
+      <span class="text-terakota">Tanpa antre.</span>
+    </h1>
+
+    <p class="mt-6 max-w-md text-base leading-relaxed text-tinta/65">
+      Scan kode QR di meja, pilih menu, lalu bayar dari ponsel sendiri. Dapur menerima pesanan lebih cepat,
+      petugas mengelola semuanya dari satu panel.
+    </p>
+
+    <div class="mt-8 flex flex-wrap items-center gap-3">
+      <% if @meja %>
+        <%= link_to meja_publik_path(@meja.token_qr), class: "tombol tombol-utama !px-5 !py-3" do %>
+          <%= ikon "pindai", kelas: "h-5 w-5" %> Coba meja demo
+        <% end %>
+      <% end %>
+      <%= link_to halaman_masuk_path, class: "tombol tombol-garis !px-5 !py-3" do %>
+        <%= ikon "pengaturan", kelas: "h-5 w-5" %> Buka panel petugas
+      <% end %>
+    </div>
+
+    <div class="mt-10 flex flex-wrap gap-x-8 gap-y-3 border-t border-garis pt-6 text-xs font-semibold text-tinta/50">
+      <span class="flex items-center gap-2"><%= ikon "perisai", kelas: "h-4 w-4 text-hijau" %> Harga dihitung server</span>
+      <span class="flex items-center gap-2"><%= ikon "kunci", kelas: "h-4 w-4 text-hijau" %> Sesi dan CSRF aktif</span>
+      <span class="flex items-center gap-2"><%= ikon "segarkan", kelas: "h-4 w-4 text-hijau" %> Status langsung dipantau</span>
+    </div>
+  </div>
+
+  <div class="relative mx-auto w-full max-w-sm">
+    <div class="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-emas/15 blur-2xl"></div>
+    <div class="absolute -bottom-8 -right-6 h-32 w-32 rounded-full bg-terakota/15 blur-2xl"></div>
+
+    <div class="relative rounded-[26px] border-[7px] border-tinta bg-white p-5 shadow-[0_24px_60px_-30px_rgba(22,35,46,0.35)]">
+      <div class="mb-5 flex items-center justify-between">
+        <%= tag.img src: "/logo-tableflow.svg", alt: "Logo Tableflow-Scan", class: "h-9 w-9" %>
+        <span class="lencana lencana-hijau"><%= ikon "centang", kelas: "h-3 w-3" %> Meja 01</span>
+      </div>
+
+      <div class="mb-4 rounded-2xl border border-dashed border-garis bg-krim p-5 text-center">
+        <div class="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-xl bg-tinta text-krim">
+          <%= ikon "kode-qr", kelas: "h-12 w-12" %>
+        </div>
+        <p class="text-xs font-semibold text-tinta/60">Scan untuk membuka menu</p>
+      </div>
+
+      <% [["Kopi Susu Gula Aren", "Rp 18.000"], ["Teh Tarik Hangat", "Rp 12.000"], ["Roti Bakar Keju", "Rp 16.000"]].each do |nama, harga| %>
+        <div class="mb-2 flex items-center justify-between rounded-xl border border-garis px-3 py-2.5">
+          <span class="text-xs font-semibold"><%= nama %></span>
+          <span class="bilangan text-xs font-bold text-terakota"><%= harga %></span>
+        </div>
+      <% end %>
+
+      <div class="mt-4 flex items-center justify-between rounded-xl bg-tinta px-4 py-3 text-krim">
+        <span class="text-xs font-semibold">Total</span>
+        <span class="bilangan text-sm font-bold">Rp 46.000</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-y border-garis bg-white">
+  <div class="mx-auto max-w-5xl px-5 py-14">
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Alur kerja</p>
+    <h2 class="judul-display mt-2 text-3xl">Tiga langkah sampai pesanan sampai</h2>
+
+    <div class="mt-9 grid gap-5 md:grid-cols-3">
+      <% [
+           ["01", "pindai", "Scan kode QR", "Setiap meja punya kode unik. Tidak perlu mengunduh aplikasi."],
+           ["02", "kopi", "Pilih menu", "Lihat kategori, varian, dan harga yang dihitung langsung oleh server."],
+           ["03", "struk", "Bayar dan pantau", "Unggah bukti QRIS lalu ikuti status pesanan sampai siap diambil."]
+         ].each do |nomor, nama_ikon, judul, isi| %>
+        <div class="kartu p-6">
+          <div class="mb-5 flex items-center justify-between">
+            <span class="judul-display text-2xl text-garis"><%= nomor %></span>
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-krim-2 text-terakota"><%= ikon nama_ikon %></span>
+          </div>
+          <h3 class="text-base font-bold"><%= judul %></h3>
+          <p class="mt-2 text-sm leading-relaxed text-tinta/60"><%= isi %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-5xl px-5 py-14">
+  <div class="grid gap-8 md:grid-cols-2 md:items-center">
+    <div>
+      <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Untuk petugas</p>
+      <h2 class="judul-display mt-2 text-3xl">Satu panel untuk seluruh operasional</h2>
+      <p class="mt-4 text-sm leading-relaxed text-tinta/60">
+        Kelola pesanan masuk, konfirmasi pembayaran, atur stok dan meja, catat shift, reservasi, member,
+        sampai laporan pendapatan harian.
+      </p>
+      <%= link_to halaman_masuk_path, class: "tombol tombol-gelap mt-6" do %>
+        <%= ikon "kanan", kelas: "h-4 w-4" %> Masuk ke panel
+      <% end %>
+    </div>
+    <div class="kartu divide-y divide-garis p-2">
+      <% [["struk", "Antrean pesanan", "Status diperbarui tanpa memuat ulang halaman"],
+          ["uang", "Konfirmasi pembayaran", "Bukti QRIS dan uang tunai tercatat rapi"],
+          ["grafik", "Laporan harian", "Pendapatan, produk terlaris, dan estimasi margin"]].each do |nama_ikon, judul, isi| %>
+        <div class="flex items-start gap-4 p-4">
+          <span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-krim-2 text-tinta"><%= ikon nama_ikon, kelas: "h-4.5 w-4.5" %></span>
+          <div>
+            <p class="text-sm font-bold"><%= judul %></p>
+            <p class="mt-0.5 text-xs text-tinta/55"><%= isi %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

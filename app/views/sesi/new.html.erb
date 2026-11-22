@@ -1,0 +1,42 @@
+<% content_for :title, "Masuk — Panel Tableflow-Scan" %>
+
+<div class="flex min-h-screen items-center justify-center bg-tinta px-5 py-12">
+  <div class="w-full max-w-md">
+    <div class="mb-8 flex flex-col items-center text-center">
+      <%= tag.img src: "/logo-tableflow.svg", alt: "Tableflow-Scan", class: "h-14 w-14" %>
+      <h1 class="judul-display mt-5 text-3xl text-krim">Panel Tableflow-Scan</h1>
+      <p class="mt-2 text-sm text-krim/50">Masuk untuk mengelola operasional kafe.</p>
+    </div>
+
+    <div class="rounded-2xl bg-krim p-7 shadow-2xl">
+      <% if alert.present? %>
+        <div class="mb-5 flex items-center gap-3 rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm font-medium text-merah">
+          <%= ikon "peringatan", kelas: "h-5 w-5 shrink-0" %><%= alert %>
+        </div>
+      <% end %>
+
+      <%= form_with url: masuk_path, method: :post, local: true do |form| %>
+        <div class="mb-4">
+          <%= form.label :username, "Nama pengguna", class: "label-form" %>
+          <%= form.text_field :username, required: true, autocomplete: "username",
+                              class: "kolom-form", placeholder: "nama pengguna" %>
+        </div>
+        <div class="mb-6">
+          <%= form.label :kata_sandi, "Kata sandi", class: "label-form" %>
+          <%= form.password_field :kata_sandi, required: true, autocomplete: "current-password",
+                                  class: "kolom-form", placeholder: "kata sandi" %>
+        </div>
+        <%= form.button type: :submit, class: "tombol tombol-utama w-full !py-3" do %>
+          <%= ikon "kunci", kelas: "h-5 w-5" %> Masuk
+        <% end %>
+      <% end %>
+    </div>
+
+    <p class="mt-6 text-center text-xs text-krim/35">Akses hanya untuk petugas yang telah terdaftar.</p>
+    <div class="mt-4 text-center">
+      <%= link_to root_path, class: "text-xs font-semibold text-krim/55 hover:text-krim" do %>
+        <%= ikon "kiri", kelas: "mr-1 inline h-3.5 w-3.5" %> Kembali ke beranda
+      <% end %>
+    </div>
+  </div>
+</div>

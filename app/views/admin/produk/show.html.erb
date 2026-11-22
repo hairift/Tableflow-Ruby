@@ -1,0 +1,36 @@
+<% content_for :title, "#{@produk.nama} — Panel Tableflow-Scan" %>
+
+<div class="flex flex-wrap items-end justify-between gap-3">
+  <div>
+    <%= link_to admin_produk_index_path, class: "text-xs font-semibold text-tinta/45" do %><%= ikon "kiri", kelas: "mr-1 inline h-3.5 w-3.5" %> Kembali<% end %>
+    <h1 class="judul-display mt-2 text-3xl"><%= @produk.nama %></h1>
+    <p class="mt-1 text-xs text-tinta/50"><%= @produk.kategori.nama %></p>
+  </div>
+  <%= link_to edit_admin_produk_path(@produk), class: "tombol tombol-gelap !text-xs" do %><%= ikon "sunting", kelas: "h-4 w-4" %> Edit produk<% end %>
+</div>
+
+<div class="mt-6 grid gap-4 sm:grid-cols-3">
+  <% [["Harga jual", "Rp #{number_with_delimiter(@produk.harga.to_i)}"], ["Harga modal", @produk.harga_modal ? "Rp #{number_with_delimiter(@produk.harga_modal.to_i)}" : "Belum diisi"], ["Stok", "#{@produk.stok} #{@produk.lacak_stok? ? '(dipantau)' : ''}"]].each do |label, nilai| %>
+    <div class="kartu p-5"><p class="text-xs text-tinta/50"><%= label %></p><p class="judul-display mt-2 text-xl"><%= nilai %></p></div>
+  <% end %>
+</div>
+
+<div class="kartu mt-6 p-6">
+  <h2 class="text-sm font-bold">Varian</h2>
+  <% if @produk.grup_varian.any? %>
+    <div class="mt-4 space-y-4">
+      <% @produk.grup_varian.terurut.each do |grup| %>
+        <div class="border-t border-garis pt-4">
+          <p class="text-sm font-bold"><%= grup.nama %> <span class="text-xs font-normal text-tinta/45"><%= grup.wajib? ? "wajib" : "opsional" %><%= grup.ganda? ? ", ganda" : "" %></span></p>
+          <div class="mt-2 flex flex-wrap gap-2">
+            <% grup.opsi_varian.terurut.each do |opsi| %>
+              <span class="lencana lencana-netral"><%= opsi.nama %> + Rp <%= number_with_delimiter(opsi.harga_tambahan.to_i) %></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="mt-4 text-sm text-tinta/45">Produk ini tidak memiliki varian.</p>
+  <% end %>
+</div>

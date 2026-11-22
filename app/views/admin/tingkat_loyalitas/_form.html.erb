@@ -1,0 +1,17 @@
+<%= form_with model: [:admin, tingkat], local: true, class: "space-y-4" do |form| %>
+  <% if tingkat.errors.any? %>
+    <div class="rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm text-merah"><%= tingkat.errors.full_messages.join(", ") %></div>
+  <% end %>
+  <div>
+    <%= form.label :min_poin, "Minimal poin", class: "label-form" %>
+    <%= form.number_field :min_poin, min: 0, class: "kolom-form" %>
+  </div>
+  <div>
+    <%= form.label :persen_diskon, "Diskon (%)", class: "label-form" %>
+    <%= form.number_field :persen_diskon, min: 1, max: TingkatLoyalitas::BATAS_DISKON, step: 0.5, class: "kolom-form" %>
+  </div>
+  <div class="flex gap-2 border-t border-garis pt-4">
+    <%= form.button class: "tombol tombol-utama" do %><%= tingkat.persisted? ? "Simpan" : "Tambah" %><% end %>
+    <%= link_to "Batal", admin_tingkat_loyalitas_index_path, class: "tombol tombol-garis" %>
+  </div>
+<% end %>

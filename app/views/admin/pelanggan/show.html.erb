@@ -1,0 +1,25 @@
+<% content_for :title, "#{@pelanggan.nama || @pelanggan.telepon} — Panel Tableflow-Scan" %>
+
+<div>
+  <%= link_to admin_pelanggan_index_path, class: "text-xs font-semibold text-tinta/45" do %><%= ikon "kiri", kelas: "mr-1 inline h-3.5 w-3.5" %> Kembali<% end %>
+  <h1 class="judul-display mt-2 text-3xl"><%= @pelanggan.nama || "Member baru" %></h1>
+  <p class="mt-1 text-sm text-tinta/50"><%= @pelanggan.telepon %></p>
+</div>
+
+<div class="mt-6 grid gap-4 sm:grid-cols-3">
+  <div class="kartu p-5"><p class="text-xs text-tinta/50">Total poin</p><p class="judul-display mt-2 text-3xl text-terakota"><%= @pelanggan.poin %></p></div>
+  <div class="kartu p-5"><p class="text-xs text-tinta/50">Tingkat</p><p class="judul-display mt-2 text-xl"><%= @pelanggan.tingkat_tertinggi&.min_poin || "—" %></p></div>
+  <div class="kartu p-5"><p class="text-xs text-tinta/50">Jumlah pesanan</p><p class="judul-display mt-2 text-3xl"><%= @pelanggan.pesanan.count %></p></div>
+</div>
+
+<div class="kartu mt-6 overflow-hidden">
+  <div class="border-b border-garis px-5 py-4"><h2 class="text-sm font-bold">Riwayat pesanan</h2></div>
+  <% @pelanggan.pesanan.order(created_at: :desc).each do |pesanan| %>
+    <div class="flex items-center justify-between border-b border-garis px-5 py-3 last:border-0">
+      <span class="text-sm font-bold"><%= pesanan.kode_pesanan %></span>
+      <span class="text-xs text-tinta/50"><%= pesanan.status.tr("_", " ") %></span>
+      <span class="bilangan text-sm">Rp <%= number_with_delimiter(pesanan.total_harga.to_i) %></span>
+      <span class="text-xs text-hijau">+<%= pesanan.poin_diperoleh %> poin</span>
+    </div>
+  <% end %>
+</div>

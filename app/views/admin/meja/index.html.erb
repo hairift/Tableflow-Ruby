@@ -1,0 +1,42 @@
+<% content_for :title, "Meja — Panel Tableflow-Scan" %>
+
+<div class="flex flex-wrap items-end justify-between gap-3">
+  <div>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Operasional</p>
+    <h1 class="judul-display mt-1 text-3xl">Meja</h1>
+  </div>
+  <%= link_to new_admin_meja_path, class: "tombol tombol-gelap !text-xs" do %>
+    <%= ikon "tambah", kelas: "h-4 w-4" %> Tambah meja
+  <% end %>
+</div>
+
+<div class="kartu mt-6 overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="tabel-data">
+      <thead><tr><th>Meja</th><th>Kapasitas</th><th>Kunjungan</th><th>Tagihan</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        <% @meja.each do |meja| %>
+          <tr>
+            <td class="font-bold"><%= link_to meja.nomor_meja, admin_meja_path(meja), class: "hover:underline" %></td>
+            <td><%= meja.kapasitas %> kursi</td>
+            <td class="text-xs text-tinta/50">
+              <%= meja.mulai_kunjungan_pada ? meja.mulai_kunjungan_pada.in_time_zone("Asia/Jakarta").strftime("%d/%m %H:%M") : "Kosong" %>
+            </td>
+            <td>
+              <span class="lencana lencana-<%= meja.tagihan_terbuka? ? 'emas' : 'netral' %>"><%= meja.tagihan_terbuka? ? "Dibuka" : "Tertutup" %></span>
+            </td>
+            <td><span class="lencana lencana-<%= meja.aktif? ? 'hijau' : 'merah' %>"><%= meja.aktif? ? "Aktif" : "Nonaktif" %></span></td>
+            <td>
+              <div class="flex items-center gap-3 text-xs font-bold">
+                <%= link_to "QR", qr_admin_meja_path(meja), target: "_blank", class: "text-terakota" %>
+                <%= link_to "Edit", edit_admin_meja_path(meja), class: "text-tinta/60" %>
+                <%= button_to "Reset token", reset_token_admin_meja_path(meja), method: :post,
+                              class: "text-tinta/60", form: { data: { turbo_confirm: "Reset token QR meja ini?" } } %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

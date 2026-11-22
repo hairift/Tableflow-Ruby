@@ -1,0 +1,56 @@
+<% content_for :title, "Pengaturan — Panel Tableflow-Scan" %>
+
+<div>
+  <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Pengelolaan</p>
+  <h1 class="judul-display mt-1 text-3xl">Pengaturan toko</h1>
+</div>
+
+<div class="mt-6 grid gap-6 lg:grid-cols-3">
+  <div class="kartu p-6 lg:col-span-2">
+    <%= form_with model: @pengaturan, url: admin_pengaturan_path, method: :patch, local: true, class: "space-y-4" do |form| %>
+      <% if @pengaturan.errors.any? %>
+        <div class="rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm text-merah"><%= @pengaturan.errors.full_messages.join(", ") %></div>
+      <% end %>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <%= form.label :nama_toko, "Nama toko", class: "label-form" %>
+          <%= form.text_field :nama_toko, class: "kolom-form" %>
+        </div>
+        <div>
+          <%= form.label :telepon, "Telepon", class: "label-form" %>
+          <%= form.text_field :telepon, class: "kolom-form" %>
+        </div>
+        <div class="sm:col-span-2">
+          <%= form.label :alamat, "Alamat", class: "label-form" %>
+          <%= form.text_field :alamat, class: "kolom-form" %>
+        </div>
+        <div>
+          <%= form.label :persen_pajak, "Pajak (%)", class: "label-form" %>
+          <%= form.number_field :persen_pajak, min: 0, max: 100, step: 0.5, class: "kolom-form" %>
+        </div>
+        <div>
+          <%= form.label :persen_biaya_layanan, "Biaya layanan (%)", class: "label-form" %>
+          <%= form.number_field :persen_biaya_layanan, min: 0, max: 100, step: 0.5, class: "kolom-form" %>
+        </div>
+      </div>
+      <%= form.button "Simpan pengaturan", class: "tombol tombol-utama" %>
+    <% end %>
+  </div>
+
+  <div class="kartu p-6">
+    <h2 class="text-sm font-bold">Gambar QRIS statis</h2>
+    <% if @pengaturan.gambar_qris.present? %>
+      <%= tag.img src: "/api/publik/gambar-qris/#{@pengaturan.gambar_qris}", alt: "QRIS toko", class: "mt-4 w-full rounded-xl border border-garis" %>
+    <% else %>
+      <div class="mt-4 rounded-xl border border-dashed border-garis px-4 py-10 text-center">
+        <%= ikon "kode-qr", kelas: "mx-auto h-10 w-10 text-tinta/25" %>
+        <p class="mt-2 text-xs text-tinta/45">Belum ada gambar QRIS.</p>
+      </div>
+    <% end %>
+    <%= form_with url: admin_pengaturan_path, method: :patch, local: true, class: "mt-4" do |form| %>
+      <%= form.file_field :gambar_qris, accept: "image/png,image/jpeg,image/webp", class: "block w-full text-xs" %>
+      <%= form.button "Unggah QRIS", class: "tombol tombol-garis mt-3 w-full !text-xs" %>
+    <% end %>
+    <p class="mt-3 text-[11px] leading-relaxed text-tinta/45">Format PNG, JPG, atau WebP maksimal 2 MB. Berkas diperiksa berdasarkan tanda tangan biner.</p>
+  </div>
+</div>

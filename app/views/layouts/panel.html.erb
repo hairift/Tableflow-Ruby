@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <title><%= content_for?(:title) ? yield(:title) : "Panel Tableflow-Scan" %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#16232E">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= yield :head %>
+  </head>
+
+  <body class="min-h-screen bg-krim antialiased">
+    <% if petugas_saat_ini %>
+      <div class="flex min-h-screen">
+        <aside class="hidden w-60 shrink-0 flex-col bg-tinta px-4 py-5 text-krim lg:flex">
+          <div class="flex items-center gap-2.5 px-2 pb-7">
+            <%= tag.img src: "/logo-tableflow.svg", alt: "Tableflow-Scan", class: "h-10 w-10" %>
+            <span class="leading-tight">
+              <span class="block judul-display text-[15px]">Tableflow<span class="text-terakota">-Scan</span></span>
+              <span class="block text-[10px] font-semibold uppercase tracking-[0.16em] text-krim/50">Panel operasional</span>
+            </span>
+          </div>
+
+          <% grup_operasional = [
+               ["Ringkasan", admin_dashboard_path, "grafik"],
+               ["Pesanan", admin_pesanan_index_path, "struk"],
+               ["Meja", admin_meja_index_path, "kode-qr"],
+               ["Produk", admin_produk_index_path, "kopi"],
+               ["Kategori", admin_kategori_index_path, "lapisan"],
+               ["Panggilan", admin_panggilan_staf_index_path, "lonceng"],
+               ["Shift", admin_shift_index_path, "jam"],
+               ["Reservasi", admin_reservasi_index_path, "kalender"],
+               ["Member", admin_pelanggan_index_path, "pengguna"]
+             ] %>
+          <% grup_admin = [
+               ["Laporan", admin_laporan_index_path, "dokumen"],
+               ["Tingkat poin", admin_tingkat_loyalitas_index_path, "label"],
+               ["Akun petugas", admin_pengguna_index_path, "kunci"],
+               ["Integrasi", admin_kunci_api_index_path, "tautan"],
+               ["Webhook", admin_webhook_index_path, "kirim"],
+               ["Pengaturan", admin_pengaturan_path, "pengaturan"]
+             ] %>
+
+          <% [["Operasional", grup_operasional], ["Pengelolaan", grup_admin]].each do |judul, tautan| %>
+            <p class="px-3 pb-2 pt-4 text-[10px] font-bold uppercase tracking-[0.18em] text-krim/40"><%= judul %></p>
+            <% tautan.each do |label, rute, nama_ikon| %>
+              <% if rute.include?("tingkat-loyalitas") || rute.include?("pengguna") || rute.include?("laporan") || rute.include?("kunci-api") || rute.include?("webhook") || rute.include?("pengaturan") %>
+                <% next unless admin? %>
+              <% end %>
+              <% aktif = request.path == rute || (rute != admin_dashboard_path && request.path.start_with?(rute)) %>
+              <%= link_to rute, class: "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors #{aktif ? 'bg-krim/10 text-krim' : 'text-krim/60 hover:bg-krim/5 hover:text-krim'}" do %>
+                <%= ikon nama_ikon, kelas: "h-4.5 w-4.5 shrink-0" %>
+                <%= label %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <div class="mt-auto border-t border-krim/10 px-3 pt-4">
+            <p class="truncate text-sm font-semibold"><%= petugas_saat_ini.username %></p>
+            <p class="text-[11px] uppercase tracking-wide text-krim/50"><%= petugas_saat_ini.peran %></p>
+          </div>
+        </aside>
+
+        <div class="flex min-w-0 flex-1 flex-col">
+          <header class="sticky top-0 z-30 border-b border-garis bg-krim/95 backdrop-blur">
+            <div class="flex items-center justify-between gap-4 px-5 py-3.5 sm:px-8">
+              <div class="flex items-center gap-2 lg:hidden">
+                <%= tag.img src: "/logo-tableflow.svg", alt: "Tableflow-Scan", class: "h-8 w-8" %>
+                <span class="judul-display text-sm">Tableflow-Scan</span>
+              </div>
+              <div class="hidden text-xs text-tinta/50 lg:block">
+                <%= ikon "lokasi", kelas: "mr-1 inline h-4 w-4" %>
+                <%= nama_toko %> · <%= Tableflow::Waktu.sekarang.strftime("%d/%m/%Y") %>
+              </div>
+              <%= button_to keluar_path, method: :delete, class: "tombol tombol-garis !py-2 !text-xs" do %>
+                <%= ikon "keluar", kelas: "h-4 w-4" %> Keluar
+              <% end %>
+            </div>
+          </header>
+
+          <% if notice.present? %>
+            <div class="px-5 pt-5 sm:px-8">
+              <div class="flex items-center gap-3 rounded-xl border border-hijau/25 bg-[#e2f0ec] px-4 py-3 text-sm font-medium text-hijau">
+                <%= ikon "centang-lingkar", kelas: "h-5 w-5 shrink-0" %><%= notice %>
+              </div>
+            </div>
+          <% end %>
+          <% if alert.present? %>
+            <div class="px-5 pt-5 sm:px-8">
+              <div class="flex items-center gap-3 rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm font-medium text-merah">
+                <%= ikon "peringatan", kelas: "h-5 w-5 shrink-0" %><%= alert %>
+              </div>
+            </div>
+          <% end %>
+
+          <main class="min-w-0 flex-1 px-5 py-7 sm:px-8">
+            <%= yield %>
+          </main>
+        </div>
+      </div>
+    <% else %>
+      <%= yield %>
+    <% end %>
+  </body>
+</html>

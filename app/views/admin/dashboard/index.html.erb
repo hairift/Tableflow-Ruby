@@ -1,0 +1,101 @@
+<% content_for :title, "Ringkasan — Panel Tableflow-Scan" %>
+
+<div class="flex flex-wrap items-end justify-between gap-3">
+  <div>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Hari ini</p>
+    <h1 class="judul-display mt-1 text-3xl">Ringkasan operasional</h1>
+  </div>
+  <%= link_to admin_pesanan_index_path, class: "tombol tombol-gelap !text-xs" do %>
+    <%= ikon "struk", kelas: "h-4 w-4" %> Lihat semua pesanan
+  <% end %>
+</div>
+
+<div class="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+  <% [
+       ["Pendapatan hari ini", "Rp #{number_with_delimiter(@pendapatan_hari_ini.to_i)}", "uang", "hijau"],
+       ["Pesanan hari ini", @jumlah_pesanan, "struk", "biru"],
+       ["Perlu verifikasi QRIS", @menunggu_verifikasi, "jam", "emas"],
+       ["Shift aktif", @shift_aktif.count, "pengguna", "netral"]
+     ].each do |label, nilai, nama_ikon, warna| %>
+    <div class="kartu p-5">
+      <div class="flex items-start justify-between">
+        <p class="text-xs font-semibold text-tinta/50"><%= label %></p>
+        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-krim-2 text-tinta/60"><%= ikon nama_ikon, kelas: "h-4.5 w-4.5" %></span>
+      </div>
+      <p class="bilangan judul-display mt-4 text-2xl"><%= nilai %></p>
+    </div>
+  <% end %>
+</div>
+
+<div class="mt-6 grid gap-6 xl:grid-cols-3">
+  <div class="kartu overflow-hidden xl:col-span-2">
+    <div class="flex items-center justify-between border-b border-garis px-5 py-4">
+      <h2 class="text-sm font-bold">Pesanan berjalan</h2>
+      <span class="lencana lencana-emas"><%= @pesanan_berjalan.count %> aktif</span>
+    </div>
+    <% if @pesanan_berjalan.any? %>
+      <div class="overflow-x-auto">
+        <table class="tabel-data">
+          <thead><tr><th>Kode</th><th>Meja</th><th>Metode</th><th>Total</th><th>Status</th><th></th></tr></thead>
+          <tbody>
+            <% @pesanan_berjalan.each do |pesanan| %>
+              <tr>
+                <td class="font-bold"><%= pesanan.kode_pesanan %></td>
+                <td><%= pesanan.meja&.nomor_meja || "Manual" %></td>
+                <td class="uppercase text-xs"><%= pesanan.metode %></td>
+                <td class="bilangan font-semibold">Rp <%= number_with_delimiter(pesanan.total_harga.to_i) %></td>
+                <td><span class="lencana lencana-<%= pesanan.menunggu_verifikasi? ? 'emas' : 'hijau' %>"><%= pesanan.status.tr("_", " ") %></span></td>
+                <td><%= link_to "Buka", admin_pesanan_path(pesanan), class: "text-xs font-bold text-terakota hover:underline" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="px-5 py-10 text-center text-sm text-tinta/45">Belum ada pesanan berjalan.</p>
+    <% end %>
+  </div>
+
+  <div class="space-y-6">
+    <div class="kartu overflow-hidden">
+      <div class="flex items-center justify-between border-b border-garis px-5 py-4">
+        <h2 class="text-sm font-bold">Panggilan staf</h2>
+        <%= link_to "Semua", admin_panggilan_staf_index_path, class: "text-xs font-bold text-terakota" %>
+      </div>
+      <% if @panggilan_menunggu.any? %>
+        <div class="divide-y divide-garis">
+          <% @panggilan_menunggu.each do |panggilan| %>
+            <div class="flex items-center justify-between px-5 py-3">
+              <div>
+                <p class="text-sm font-bold">Meja <%= panggilan.meja.nomor_meja %></p>
+                <p class="text-xs text-tinta/50"><%= panggilan.catatan %></p>
+              </div>
+              <%= button_to "Selesai", admin_panggilan_staf_path(panggilan), method: :patch,
+                            class: "tombol tombol-garis !py-1.5 !text-[11px]" %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="px-5 py-8 text-center text-xs text-tinta/45">Tidak ada panggilan menunggu.</p>
+      <% end %>
+    </div>
+
+    <div class="kartu overflow-hidden">
+      <div class="border-b border-garis px-5 py-4">
+        <h2 class="text-sm font-bold">Status meja</h2>
+      </div>
+      <div class="grid grid-cols-4 gap-2 p-4">
+        <% Meja.aktif.order(:nomor_meja).each do |meja| %>
+          <div class="rounded-lg border border-garis px-2 py-3 text-center">
+            <p class="text-[10px] font-bold text-tinta/45"><%= meja.nomor_meja %></p>
+            <span class="mt-1 block h-2 w-2 mx-auto rounded-full <%= @meja_sibuk.include?(meja) ? 'bg-terakota' : 'bg-hijau' %>"></span>
+          </div>
+        <% end %>
+      </div>
+      <p class="border-t border-garis px-5 py-3 text-[11px] text-tinta/45">
+        <span class="mr-3 inline-block h-2 w-2 rounded-full bg-terakota"></span>Sibuk
+        <span class="ml-4 mr-3 inline-block h-2 w-2 rounded-full bg-hijau"></span>Kosong
+      </p>
+    </div>
+  </div>
+</div>

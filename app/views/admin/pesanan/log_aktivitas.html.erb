@@ -1,0 +1,34 @@
+<% content_for :title, "Riwayat aktivitas — Panel Tableflow-Scan" %>
+
+<div class="flex flex-wrap items-end justify-between gap-3">
+  <div>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Audit</p>
+    <h1 class="judul-display mt-1 text-3xl">Riwayat aktivitas</h1>
+  </div>
+  <%= link_to admin_pesanan_index_path, class: "tombol tombol-garis !text-xs" do %>
+    <%= ikon "kiri", kelas: "h-4 w-4" %> Kembali
+  <% end %>
+</div>
+
+<div class="kartu mt-6 overflow-hidden">
+  <% if @log.any? %>
+    <div class="overflow-x-auto">
+      <table class="tabel-data">
+        <thead><tr><th>Waktu</th><th>Pesanan</th><th>Perubahan</th><th>Petugas</th><th>Catatan</th></tr></thead>
+        <tbody>
+          <% @log.each do |catatan| %>
+            <tr>
+              <td class="text-xs text-tinta/50"><%= catatan.created_at.in_time_zone("Asia/Jakarta").strftime("%d/%m/%Y %H:%M") %></td>
+              <td class="font-bold"><%= link_to catatan.pesanan.kode_pesanan, admin_pesanan_path(catatan.pesanan), class: "hover:underline" %></td>
+              <td class="text-xs"><%= catatan.status_dari || "baru" %> → <strong><%= catatan.status_ke %></strong></td>
+              <td><%= catatan.diubah_oleh&.username || "Sistem" %></td>
+              <td class="text-xs text-tinta/55"><%= catatan.catatan || "—" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p class="px-5 py-12 text-center text-sm text-tinta/45">Belum ada aktivitas tercatat.</p>
+  <% end %>
+</div>

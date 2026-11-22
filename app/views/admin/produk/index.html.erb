@@ -1,0 +1,40 @@
+<% content_for :title, "Produk — Panel Tableflow-Scan" %>
+
+<div class="flex flex-wrap items-end justify-between gap-3">
+  <div>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Menu</p>
+    <h1 class="judul-display mt-1 text-3xl">Produk</h1>
+  </div>
+  <%= link_to new_admin_produk_path, class: "tombol tombol-gelap !text-xs" do %>
+    <%= ikon "tambah", kelas: "h-4 w-4" %> Tambah produk
+  <% end %>
+</div>
+
+<div class="kartu mt-6 overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="tabel-data">
+      <thead><tr><th>Nama</th><th>Kategori</th><th>Harga</th><th>Stok</th><th>Varian</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        <% @produk.each do |produk| %>
+          <tr>
+            <td class="font-bold"><%= link_to produk.nama, admin_produk_path(produk), class: "hover:underline" %></td>
+            <td class="text-xs text-tinta/55"><%= produk.kategori.nama %></td>
+            <td class="bilangan font-semibold">Rp <%= number_with_delimiter(produk.harga.to_i) %></td>
+            <td>
+              <% if produk.lacak_stok? %>
+                <%= form_with url: stok_admin_produk_path(produk), method: :patch do |form| %>
+                  <%= form.number_field :stok, value: produk.stok, min: 0, class: "w-20 rounded-lg border border-garis px-2 py-1 text-xs" %>
+                <% end %>
+              <% else %>
+                <span class="text-xs text-tinta/40">Tidak dipantau</span>
+              <% end %>
+            </td>
+            <td><%= produk.grup_varian.count %></td>
+            <td><span class="lencana lencana-<%= produk.tersedia? ? 'hijau' : 'netral' %>"><%= produk.tersedia? ? "Tersedia" : "Habis" %></span></td>
+            <td><%= link_to "Edit", edit_admin_produk_path(produk), class: "text-xs font-bold text-terakota" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

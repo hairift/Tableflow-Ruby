@@ -1,0 +1,106 @@
+<%= form_with model: [:admin, produk], local: true, class: "space-y-6" do |form| %>
+  <% if produk.errors.any? %>
+    <div class="rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm text-merah"><%= produk.errors.full_messages.join(", ") %></div>
+  <% end %>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div class="sm:col-span-2">
+      <%= form.label :nama, "Nama produk", class: "label-form" %>
+      <%= form.text_field :nama, class: "kolom-form", required: true %>
+    </div>
+    <div>
+      <%= form.label :kategori_id, "Kategori", class: "label-form" %>
+      <%= form.collection_select :kategori_id, Kategori.terurut, :id, :nama, {}, class: "kolom-form" %>
+    </div>
+    <div>
+      <%= form.label :foto, "Nama berkas foto", class: "label-form" %>
+      <%= form.text_field :foto, class: "kolom-form", placeholder: "contoh: kopi-susu.png" %>
+    </div>
+    <div>
+      <%= form.label :harga, "Harga jual (Rp)", class: "label-form" %>
+      <%= form.number_field :harga, min: 0, class: "kolom-form" %>
+    </div>
+    <div>
+      <%= form.label :harga_modal, "Harga modal (Rp)", class: "label-form" %>
+      <%= form.number_field :harga_modal, min: 0, class: "kolom-form" %>
+    </div>
+    <div>
+      <%= form.label :stok, "Stok", class: "label-form" %>
+      <%= form.number_field :stok, min: 0, class: "kolom-form" %>
+    </div>
+    <div class="flex items-end gap-5 pb-2">
+      <label class="flex items-center gap-2 text-sm font-semibold"><%= form.check_box :lacak_stok, class: "h-4 w-4 accent-terakota" %> Lacak stok</label>
+      <label class="flex items-center gap-2 text-sm font-semibold"><%= form.check_box :tersedia, class: "h-4 w-4 accent-terakota" %> Tersedia</label>
+    </div>
+  </div>
+
+  <div class="border-t border-garis pt-5">
+    <div class="mb-3 flex items-center justify-between">
+      <h3 class="text-sm font-bold">Grup varian</h3>
+      <span class="text-[11px] text-tinta/45">Opsional, misalnya ukuran atau tambahan</span>
+    </div>
+
+    <div data-controller="varian-form">
+      <div data-varian-form-target="daftar">
+        <%= form.fields_for :grup_varian do |grup| %>
+          <div class="kartu-tipis mb-3 p-4" data-varian-form-target="grup">
+            <div class="grid gap-3 sm:grid-cols-4">
+              <div class="sm:col-span-2">
+                <%= grup.label :nama, "Nama grup", class: "label-form" %>
+                <%= grup.text_field :nama, class: "kolom-form", placeholder: "Ukuran" %>
+              </div>
+              <div>
+                <%= grup.label :urutan, "Urutan", class: "label-form" %>
+                <%= grup.number_field :urutan, min: 0, class: "kolom-form" %>
+              </div>
+              <div class="flex items-end gap-4 pb-2">
+                <label class="flex items-center gap-1.5 text-xs font-semibold"><%= grup.check_box :wajib, class: "accent-terakota" %> Wajib</label>
+                <label class="flex items-center gap-1.5 text-xs font-semibold"><%= grup.check_box :ganda, class: "accent-terakota" %> Ganda</label>
+              </div>
+            </div>
+            <div class="mt-3 border-t border-garis pt-3">
+              <p class="mb-2 text-[11px] font-bold uppercase tracking-wide text-tinta/45">Opsi</p>
+              <%= grup.fields_for :opsi_varian do |opsi| %>
+                <div class="mb-2 grid grid-cols-[1fr_120px] gap-2">
+                  <%= opsi.text_field :nama, class: "kolom-form", placeholder: "Nama opsi" %>
+                  <%= opsi.number_field :harga_tambahan, min: 0, class: "kolom-form", placeholder: "Tambahan" %>
+                </div>
+              <% end %>
+            </div>
+            <%= grup.hidden_field :_destroy, data: { varianFormTarget: "hapus" } %>
+            <button type="button" data-action="varian-form#hapus" class="mt-2 text-xs font-bold text-merah">Hapus grup</button>
+          </div>
+        <% end %>
+      </div>
+
+      <template data-varian-form-target="cetakan">
+        <div class="kartu-tipis mb-3 p-4" data-varian-form-target="grup">
+          <div class="grid gap-3 sm:grid-cols-4">
+            <div class="sm:col-span-2"><label class="label-form">Nama grup</label><input type="text" name="produk[grup_varian_attributes][BARIS][nama]" class="kolom-form" placeholder="Ukuran"></div>
+            <div><label class="label-form">Urutan</label><input type="number" name="produk[grup_varian_attributes][BARIS][urutan]" value="0" min="0" class="kolom-form"></div>
+            <div class="flex items-end gap-4 pb-2">
+              <label class="flex items-center gap-1.5 text-xs font-semibold"><input type="checkbox" name="produk[grup_varian_attributes][BARIS][wajib]" value="1" class="accent-terakota"> Wajib</label>
+              <label class="flex items-center gap-1.5 text-xs font-semibold"><input type="checkbox" name="produk[grup_varian_attributes][BARIS][ganda]" value="1" class="accent-terakota"> Ganda</label>
+            </div>
+          </div>
+          <div class="mt-3 border-t border-garis pt-3">
+            <p class="mb-2 text-[11px] font-bold uppercase tracking-wide text-tinta/45">Opsi</p>
+            <div class="mb-2 grid grid-cols-[1fr_120px] gap-2"><input type="text" name="produk[grup_varian_attributes][BARIS][opsi_varian_attributes][0][nama]" class="kolom-form" placeholder="Nama opsi"><input type="number" name="produk[grup_varian_attributes][BARIS][opsi_varian_attributes][0][harga_tambahan]" value="0" min="0" class="kolom-form"></div>
+            <div class="mb-2 grid grid-cols-[1fr_120px] gap-2"><input type="text" name="produk[grup_varian_attributes][BARIS][opsi_varian_attributes][1][nama]" class="kolom-form" placeholder="Nama opsi"><input type="number" name="produk[grup_varian_attributes][BARIS][opsi_varian_attributes][1][harga_tambahan]" value="0" min="0" class="kolom-form"></div>
+          </div>
+          <input type="hidden" name="produk[grup_varian_attributes][BARIS][_destroy]" data-varianFormTarget="hapus" value="0">
+          <button type="button" data-action="varian-form#hapus" class="mt-2 text-xs font-bold text-merah">Hapus grup</button>
+        </div>
+      </template>
+
+      <button type="button" data-action="varian-form#tambah" class="tombol tombol-garis !text-xs">
+        <%= ikon "tambah", kelas: "h-4 w-4" %> Tambah grup varian
+      </button>
+    </div>
+  </div>
+
+  <div class="flex gap-2 border-t border-garis pt-5">
+    <%= form.button class: "tombol tombol-utama" do %><%= produk.persisted? ? "Simpan perubahan" : "Tambah produk" %><% end %>
+    <%= link_to "Batal", admin_produk_index_path, class: "tombol tombol-garis" %>
+  </div>
+<% end %>

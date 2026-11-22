@@ -1,0 +1,56 @@
+<% content_for :title, "Pesanan — Panel Tableflow-Scan" %>
+
+<div class="flex flex-wrap items-end justify-between gap-3">
+  <div>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Operasional</p>
+    <h1 class="judul-display mt-1 text-3xl">Pesanan</h1>
+  </div>
+  <div class="flex gap-2">
+    <%= link_to log_aktivitas_admin_pesanan_index_path, class: "tombol tombol-garis !text-xs" do %>
+      <%= ikon "aktivitas", kelas: "h-4 w-4" %> Riwayat aktivitas
+    <% end %>
+    <%= link_to manual_admin_pesanan_index_path, class: "tombol tombol-gelap !text-xs" do %>
+      <%= ikon "tambah", kelas: "h-4 w-4" %> Pesanan manual
+    <% end %>
+  </div>
+</div>
+
+<div class="mt-6 flex flex-wrap gap-2">
+  <%= link_to "Semua", admin_pesanan_index_path, class: "rounded-full border px-3.5 py-1.5 text-xs font-bold #{@status.blank? ? 'border-tinta bg-tinta text-krim' : 'border-garis bg-white text-tinta/60'}" %>
+  <% Pesanan::STATUS.each do |status| %>
+    <%= link_to status.tr("_", " ").capitalize, admin_pesanan_index_path(status: status),
+                class: "rounded-full border px-3.5 py-1.5 text-xs font-bold #{@status == status ? 'border-tinta bg-tinta text-krim' : 'border-garis bg-white text-tinta/60'}" %>
+  <% end %>
+</div>
+
+<div class="kartu mt-5 overflow-hidden">
+  <% if @pesanan.any? %>
+    <div class="overflow-x-auto">
+      <table class="tabel-data">
+        <thead><tr><th>Kode</th><th>Meja / Nama</th><th>Metode</th><th>Total</th><th>Status</th><th>Waktu</th><th></th></tr></thead>
+        <tbody>
+          <% @pesanan.each do |pesanan| %>
+            <tr>
+              <td class="font-bold"><%= pesanan.kode_pesanan %></td>
+              <td><%= pesanan.meja&.nomor_meja || pesanan.nama_pelanggan || "—" %></td>
+              <td class="text-xs uppercase"><%= pesanan.metode %></td>
+              <td class="bilangan font-semibold">Rp <%= number_with_delimiter(pesanan.total_harga.to_i) %></td>
+              <td>
+                <span class="lencana lencana-<%= case pesanan.status
+                  when "selesai" then "hijau"
+                  when "dibatalkan" then "merah"
+                  when "menunggu_verifikasi" then "emas"
+                  when "menunggu" then "netral"
+                  else "biru" end %>"><%= pesanan.status.tr("_", " ") %></span>
+              </td>
+              <td class="text-xs text-tinta/50"><%= pesanan.created_at.in_time_zone("Asia/Jakarta").strftime("%d/%m %H:%M") %></td>
+              <td><%= link_to "Buka", admin_pesanan_path(pesanan), class: "text-xs font-bold text-terakota hover:underline" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p class="px-5 py-12 text-center text-sm text-tinta/45">Belum ada pesanan pada filter ini.</p>
+  <% end %>
+</div>

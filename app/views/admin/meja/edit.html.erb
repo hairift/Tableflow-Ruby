@@ -1,0 +1,9 @@
+<% content_for :title, "Edit meja — Panel Tableflow-Scan" %>
+
+<div class="mx-auto max-w-xl">
+  <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Meja</p>
+  <h1 class="judul-display mt-1 text-3xl">Edit meja <%= @meja.nomor_meja %></h1>
+  <div class="kartu mt-6 p-6">
+    <%= render "form", meja: @meja %>
+  </div>
+</div>

@@ -1,0 +1,231 @@
+<% content_for :title, "Meja #{@meja.nomor_meja} — Tableflow-Scan" %>
+
+<div data-controller="pemesanan"
+     data-pemesanan-token="<%= @meja.token_qr %>"
+     data-pemesanan-meja="<%= @meja.nomor_meja %>"
+     data-pemesanan-csrf="<%= form_authenticity_token %>">
+
+  <script type="application/json" data-pemesanan-target="dataMenu">
+    <%= raw @kategori.map { |kat|
+          {
+            id: kat.id,
+            nama: kat.nama,
+            estimasi: kat.estimasi_menit,
+            produk: kat.produk.select(&:tersedia?).map { |p|
+              {
+                id: p.id,
+                nama: p.nama,
+                harga: p.harga.to_i,
+                foto: p.foto,
+                varian: p.grup_varian.terurut.map { |g|
+                  { id: g.id, nama: g.nama, wajib: g.wajib, ganda: g.ganda,
+                    opsi: g.opsi_varian.terurut.map { |o| { id: o.id, nama: o.nama, tambahan: o.harga_tambahan.to_i } } }
+                }
+              }
+            }
+          }
+        }.to_json %>
+  </script>
+
+  <div class="mx-auto max-w-5xl px-5 pt-7">
+    <div class="kartu flex flex-wrap items-center justify-between gap-4 px-5 py-4">
+      <div class="flex items-center gap-4">
+        <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-tinta text-krim"><%= ikon "pindai", kelas: "h-6 w-6" %></span>
+        <div>
+          <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-tinta/45">Anda duduk di</p>
+          <p class="judul-display text-2xl">Meja <%= @meja.nomor_meja %></p>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <button type="button" data-action="pemesanan#lihatTagihan" class="tombol tombol-garis !text-xs">
+          <%= ikon "struk", kelas: "h-4 w-4" %> Tagihan
+        </button>
+        <button type="button" data-action="pemesanan#bukaPanggilan" class="tombol tombol-garis !text-xs">
+          <%= ikon "lonceng", kelas: "h-4 w-4" %> Panggil staf
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-5xl px-5 pt-8">
+    <div class="flex items-end justify-between gap-4">
+      <div>
+        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Menu hari ini</p>
+        <h2 class="judul-display mt-1 text-3xl">Pilih yang ingin Anda pesan</h2>
+      </div>
+      <p class="hidden text-xs text-tinta/50 sm:block"><%= @pengaturan.nama_tampil %></p>
+    </div>
+
+    <div class="mt-6 flex gap-2 overflow-x-auto pb-2">
+      <% @kategori.each_with_index do |kat, indeks| %>
+        <button type="button" data-action="pemesanan#pilihKategori"
+                data-pemesanan-kategori-param="<%= kat.id %>"
+                class="shrink-0 rounded-full border px-4 py-2 text-xs font-bold transition-colors <%= indeks.zero? ? 'border-tinta bg-tinta text-krim' : 'border-garis bg-white text-tinta/60 hover:border-tinta/40' %>">
+          <%= kat.nama %>
+        </button>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mx-auto grid max-w-5xl gap-4 px-5 py-6 sm:grid-cols-2 lg:grid-cols-3">
+    <% @kategori.each do |kat| %>
+      <% kat.produk.select(&:tersedia?).each do |produk| %>
+        <article data-pemesanan-target="kartu" data-kategori="<%= kat.id %>" class="kartu flex flex-col overflow-hidden">
+          <div class="flex h-32 items-center justify-center bg-krim-2 text-tinta/25">
+            <% if produk.foto.present? %>
+              <%= tag.img src: "/api/publik/foto-produk/#{produk.foto}", alt: produk.nama, class: "h-full w-full object-cover" %>
+            <% else %>
+              <%= ikon produk.kategori.nama.downcase.include?("minum") ? "kopi" : "peralatan", kelas: "h-12 w-12" %>
+            <% end %>
+          </div>
+          <div class="flex flex-1 flex-col p-4">
+            <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-tinta/40"><%= kat.nama %></p>
+            <h3 class="mt-1 text-sm font-bold leading-snug"><%= produk.nama %></h3>
+            <% if kat.estimasi_menit.present? %>
+              <p class="mt-1 text-[11px] text-tinta/45"><%= ikon "jam", kelas: "mr-1 inline h-3.5 w-3.5" %><%= kat.estimasi_menit %> menit</p>
+            <% end %>
+            <div class="mt-auto flex items-center justify-between pt-4">
+              <span class="bilangan text-base font-extrabold text-terakota">Rp <%= number_with_delimiter(produk.harga.to_i) %></span>
+              <button type="button" data-action="pemesanan#tambah" data-pemesanan-produk-param="<%= produk.id %>"
+                      class="tombol tombol-gelap !rounded-lg !px-3 !py-2 !text-xs">
+                <%= ikon "tambah", kelas: "h-4 w-4" %> Tambah
+              </button>
+            </div>
+          </div>
+        </article>
+      <% end %>
+    <% end %>
+  </div>
+
+<!-- Bilah keranjang melekat di bawah -->
+<div class="fixed inset-x-0 bottom-0 z-30 border-t border-garis bg-white/95 px-5 py-3 backdrop-blur">
+  <div class="mx-auto flex max-w-5xl items-center justify-between gap-4">
+    <div>
+      <p class="text-[11px] font-semibold text-tinta/50"><span data-pemesanan-target="totalBarang">0</span> item di keranjang</p>
+      <p class="bilangan text-lg font-extrabold" data-pemesanan-target="totalHarga">Rp 0</p>
+    </div>
+    <button type="button" data-action="pemesanan#bukaKeranjang" class="tombol tombol-utama !px-5">
+      <%= ikon "keranjang", kelas: "h-5 w-5" %> Lihat keranjang
+    </button>
+  </div>
+</div>
+
+<!-- Laci keranjang -->
+<div data-pemesanan-target="drawerKeranjang" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-tinta/40" data-action="click->pemesanan#tutupKeranjang"></div>
+  <div class="absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-krim shadow-2xl">
+    <div class="flex items-center justify-between border-b border-garis px-5 py-4">
+      <h3 class="judul-display text-xl">Keranjang Anda</h3>
+      <button type="button" data-action="pemesanan#tutupKeranjang" class="rounded-lg p-2 hover:bg-krim-2"><%= ikon "tutup" %></button>
+    </div>
+
+    <div data-pemesanan-target="daftarKeranjang" class="flex-1 space-y-3 overflow-y-auto px-5 py-5"></div>
+
+    <div class="space-y-4 border-t border-garis bg-white px-5 py-5">
+      <div>
+        <label class="label-form">Nomor telepon member (opsional)</label>
+        <input type="tel" data-pemesanan-target="teleponMember" placeholder="08xxxxxxxxxx" class="kolom-form">
+      </div>
+      <div>
+        <label class="label-form">Metode pembayaran</label>
+        <div class="grid grid-cols-3 gap-2">
+          <% [["qris", "QRIS"], ["tunai", "Tunai"], ["debit", "Debit"]].each_with_index do |(nilai, label), i| %>
+            <label class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-garis px-2 py-2.5 text-xs font-bold has-[:checked]:border-terakota has-[:checked]:bg-terakota/5">
+              <input type="radio" name="metode_bayar" value="<%= nilai %>" <%= "checked" if i.zero? %> data-pemesanan-target="metodeBayar" class="accent-terakota">
+              <%= label %>
+            </label>
+          <% end %>
+        </div>
+      </div>
+      <div class="flex items-center justify-between border-t border-garis pt-3">
+        <span class="text-sm font-semibold text-tinta/60">Total</span>
+        <span class="bilangan text-xl font-extrabold" data-pemesanan-target="totalKeranjang">Rp 0</span>
+      </div>
+      <button type="button" data-action="pemesanan#checkout" class="tombol tombol-utama w-full !py-3">
+        <%= ikon "kirim", kelas: "h-5 w-5" %> Pesan sekarang
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Dialog varian -->
+<div data-pemesanan-target="panelVarian" class="fixed inset-0 z-[60] hidden items-center justify-center p-4">
+  <div class="absolute inset-0 bg-tinta/40" data-action="click->pemesanan#tutupVarian"></div>
+  <div class="kartu relative w-full max-w-md p-6">
+    <div class="flex items-start justify-between">
+      <h3 class="judul-display text-xl" data-pemesanan-target="judulVarian">Pilih varian</h3>
+      <button type="button" data-action="pemesanan#tutupVarian" class="rounded-lg p-2 hover:bg-krim-2"><%= ikon "tutup" %></button>
+    </div>
+    <div data-pemesanan-target="isiVarian" class="mt-5 max-h-96 space-y-5 overflow-y-auto"></div>
+    <button type="button" data-action="pemesanan#simpanVarian" class="tombol tombol-utama mt-6 w-full !py-3">Tambah ke keranjang</button>
+  </div>
+</div>
+
+<!-- Panel status pesanan -->
+<div data-pemesanan-target="panelStatus" class="fixed inset-0 z-[70] hidden items-center justify-center p-4">
+  <div class="absolute inset-0 bg-tinta/40" data-action="click->pemesanan#tutupStatus"></div>
+  <div class="kartu relative w-full max-w-lg p-6">
+    <div class="flex items-start justify-between">
+      <div>
+        <p class="text-[11px] font-bold uppercase tracking-[0.14em] text-terakota">Pesanan Anda</p>
+        <h3 class="judul-display mt-1 text-2xl" data-pemesanan-target="kodeStatus">—</h3>
+      </div>
+      <button type="button" data-action="pemesanan#tutupStatus" class="rounded-lg p-2 hover:bg-krim-2"><%= ikon "tutup" %></button>
+    </div>
+
+    <div class="mt-5 rounded-xl bg-krim px-4 py-3">
+      <p class="text-xs text-tinta/55">Status saat ini</p>
+      <p class="mt-0.5 text-base font-extrabold" data-pemesanan-target="labelStatus">Menunggu pembayaran</p>
+      <p class="mt-1 text-[11px] text-tinta/45" data-pemesanan-target="estimasiStatus"></p>
+    </div>
+
+    <div data-pemesanan-target="isiStatus" class="mt-5 space-y-2 text-sm"></div>
+
+    <div data-pemesanan-target="bagianBayar" class="mt-5 hidden rounded-xl border border-dashed border-garis p-4">
+      <p class="text-sm font-bold">Unggah bukti pembayaran QRIS</p>
+      <p class="mt-1 text-xs text-tinta/55">Tunjukkan bukti transfer ke kasir setelah diunggah.</p>
+      <input type="file" accept="image/png,image/jpeg,image/webp" data-pemesanan-target="buktiInput" class="mt-3 block w-full text-xs">
+      <button type="button" data-action="pemesanan#unggahBukti" class="tombol tombol-gelap mt-3 w-full !text-xs">Kirim bukti</button>
+    </div>
+
+    <div class="mt-5 flex gap-2">
+      <button type="button" data-action="pemesanan#cekStatus" class="tombol tombol-garis flex-1 !text-xs"><%= ikon "segarkan", kelas: "h-4 w-4" %> Perbarui status</button>
+    </div>
+  </div>
+</div>
+
+<!-- Dialog panggilan staf -->
+<div data-pemesanan-target="panelPanggilan" class="fixed inset-0 z-[70] hidden items-center justify-center p-4">
+  <div class="absolute inset-0 bg-tinta/40" data-action="click->pemesanan#tutupPanggilan"></div>
+  <div class="kartu relative w-full max-w-md p-6">
+    <div class="flex items-start justify-between">
+      <h3 class="judul-display text-xl">Panggil staf</h3>
+      <button type="button" data-action="pemesanan#tutupPanggilan" class="rounded-lg p-2 hover:bg-krim-2"><%= ikon "tutup" %></button>
+    </div>
+    <p class="mt-2 text-xs text-tinta/55">Pilih kebutuhan Anda. Petugas terdekat akan segera datang.</p>
+    <div class="mt-5 grid grid-cols-2 gap-2">
+      <% [["air minum", "Air minum"], ["alat makan", "Alat makan"], ["bantuan menu", "Bantuan menu"], ["tagihan", "Tagihan"]].each do |nilai, label| %>
+        <label class="flex cursor-pointer items-center gap-2 rounded-lg border border-garis px-3 py-2.5 text-xs font-semibold has-[:checked]:border-terakota has-[:checked]:bg-terakota/5">
+          <input type="radio" name="alasan_panggilan" value="<%= nilai %>" <%= "checked" if nilai == "air minum" %> data-pemesanan-target="alasanPanggilan" class="accent-terakota">
+          <%= label %>
+        </label>
+      <% end %>
+    </div>
+    <input type="text" data-pemesanan-target="catatanPanggilan" placeholder="Catatan tambahan (opsional)" class="kolom-form mt-4">
+    <button type="button" data-action="pemesanan#kirimPanggilan" class="tombol tombol-utama mt-4 w-full">Kirim panggilan</button>
+  </div>
+</div>
+
+<!-- Dialog tagihan -->
+<div data-pemesanan-target="panelTagihan" class="fixed inset-0 z-[70] hidden items-center justify-center p-4">
+  <div class="absolute inset-0 bg-tinta/40" data-action="click->pemesanan#tutupTagihan"></div>
+  <div class="kartu relative w-full max-w-md p-6">
+    <div class="flex items-start justify-between">
+      <h3 class="judul-display text-xl">Tagihan meja</h3>
+      <button type="button" data-action="pemesanan#tutupTagihan" class="rounded-lg p-2 hover:bg-krim-2"><%= ikon "tutup" %></button>
+    </div>
+    <div data-pemesanan-target="isiTagihan" class="mt-5 text-sm text-tinta/65">Memuat tagihan…</div>
+  </div>
+</div>
+
+</div>

@@ -1,0 +1,29 @@
+<% content_for :title, "Akun petugas — Panel Tableflow-Scan" %>
+
+<div class="flex flex-wrap items-end justify-between gap-3">
+  <div>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Pengelolaan</p>
+    <h1 class="judul-display mt-1 text-3xl">Akun petugas</h1>
+  </div>
+  <%= link_to new_admin_pengguna_path, class: "tombol tombol-gelap !text-xs" do %><%= ikon "tambah", kelas: "h-4 w-4" %> Tambah akun<% end %>
+</div>
+
+<div class="kartu mt-6 overflow-hidden">
+  <table class="tabel-data">
+    <thead><tr><th>Username</th><th>Peran</th><th>Status</th><th>PIN</th><th></th></tr></thead>
+    <tbody>
+      <% @pengguna.each do |pengguna| %>
+        <tr>
+          <td class="font-bold"><%= pengguna.username %></td>
+          <td><span class="lencana lencana-<%= pengguna.admin? ? 'biru' : 'netral' %>"><%= pengguna.peran %></span></td>
+          <td><span class="lencana lencana-<%= pengguna.aktif? ? 'hijau' : 'merah' %>"><%= pengguna.aktif? ? "Aktif" : "Nonaktif" %></span></td>
+          <td class="text-xs text-tinta/50"><%= pengguna.hash_pin.present? ? "Terpasang" : "Belum ada" %></td>
+          <td class="flex gap-3 text-xs font-bold">
+            <%= link_to "Edit", edit_admin_pengguna_path(pengguna), class: "text-tinta/60" %>
+            <%= button_to "Hapus", admin_pengguna_path(pengguna), method: :delete, class: "text-merah" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

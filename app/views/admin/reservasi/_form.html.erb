@@ -1,0 +1,57 @@
+<%= form_with model: [:admin, reservasi], local: true, class: "space-y-4" do |form| %>
+  <% if reservasi.errors.any? %>
+    <div class="rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm text-merah"><%= reservasi.errors.full_messages.join(", ") %></div>
+  <% end %>
+  <% if flash[:alert].present? %>
+    <div class="rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm text-merah"><%= flash[:alert] %></div>
+  <% end %>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <%= form.label :nama_pelanggan, "Nama pelanggan", class: "label-form" %>
+      <%= form.text_field :nama_pelanggan, class: "kolom-form", required: true %>
+    </div>
+    <div>
+      <%= form.label :nama_acara, "Nama acara", class: "label-form" %>
+      <%= form.text_field :nama_acara, class: "kolom-form" %>
+    </div>
+    <div>
+      <%= form.label :telepon, "Telepon", class: "label-form" %>
+      <%= form.text_field :telepon, class: "kolom-form" %>
+    </div>
+    <div>
+      <%= form.label :jumlah_tamu, "Jumlah tamu", class: "label-form" %>
+      <%= form.number_field :jumlah_tamu, min: 1, class: "kolom-form" %>
+    </div>
+    <div>
+      <%= form.label :tanggal_reservasi, "Waktu reservasi", class: "label-form" %>
+      <%= form.datetime_field :tanggal_reservasi, class: "kolom-form", required: true %>
+    </div>
+    <div>
+      <%= form.label :meja_id, "Meja", class: "label-form" %>
+      <%= form.collection_select :meja_id, Meja.aktif.order(:nomor_meja), :id, :nomor_meja, { include_blank: "Belum ditentukan" }, class: "kolom-form" %>
+    </div>
+    <div>
+      <%= form.label :status, "Status", class: "label-form" %>
+      <%= form.select :status, Reservasi::STATUS.map { |s| [s.tr("_", " ").capitalize, s] }, {}, class: "kolom-form" %>
+    </div>
+    <div>
+      <%= form.label :jumlah_deposit, "Deposit (Rp)", class: "label-form" %>
+      <%= form.number_field :jumlah_deposit, min: 0, class: "kolom-form" %>
+    </div>
+    <div class="sm:col-span-2">
+      <%= form.label :catatan, "Catatan", class: "label-form" %>
+      <%= form.text_area :catatan, rows: 2, class: "kolom-form" %>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-5 border-t border-garis pt-4">
+    <label class="flex items-center gap-2 text-sm font-semibold"><%= form.check_box :deposit_lunas, class: "h-4 w-4 accent-terakota" %> Deposit lunas</label>
+    <%= form.select :metode_deposit, [["Tunai", "tunai"], ["QRIS", "qris"], ["Debit", "debit"]], { include_blank: "Metode deposit" }, class: "kolom-form !w-auto" %>
+  </div>
+
+  <div class="flex gap-2 border-t border-garis pt-4">
+    <%= form.button class: "tombol tombol-utama" do %><%= reservasi.persisted? ? "Simpan" : "Buat reservasi" %><% end %>
+    <%= link_to "Batal", admin_reservasi_index_path, class: "tombol tombol-garis" %>
+  </div>
+<% end %>

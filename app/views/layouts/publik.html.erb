@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <title><%= content_for?(:title) ? yield(:title) : "Tableflow-Scan — Pesan dari Meja Anda" %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="Pesan makanan dan minuman langsung dari meja Anda. Cepat, jelas, dan tanpa antre.">
+    <meta name="theme-color" content="#16232E">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= yield :head %>
+  </head>
+
+  <body class="min-h-screen antialiased">
+    <header class="sticky top-0 z-40 border-b border-garis bg-krim/95 backdrop-blur">
+      <div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-3">
+        <%= link_to root_path, class: "flex items-center gap-2.5" do %>
+          <%= tag.img src: "/logo-tableflow.svg", alt: "Tableflow-Scan", class: "h-9 w-9" %>
+          <span class="leading-tight">
+            <span class="block judul-display text-[15px] text-tinta">Tableflow<span class="text-terakota">-Scan</span></span>
+            <span class="block text-[10px] font-semibold uppercase tracking-[0.18em] text-tinta/50">Pesan dari meja</span>
+          </span>
+        <% end %>
+        <%= link_to halaman_masuk_path, class: "tombol tombol-garis !py-2 !text-xs" do %>
+          <%= ikon "pengguna", kelas: "h-4 w-4" %>
+          <span class="hidden sm:inline">Panel petugas</span>
+        <% end %>
+      </div>
+    </header>
+
+    <% if notice.present? %>
+      <div class="mx-auto mt-4 max-w-5xl px-5">
+        <div class="flex items-center gap-3 rounded-xl border border-hijau/25 bg-[#e2f0ec] px-4 py-3 text-sm font-medium text-hijau">
+          <%= ikon "centang-lingkar", kelas: "h-5 w-5 shrink-0" %>
+          <%= notice %>
+        </div>
+      </div>
+    <% end %>
+    <% if alert.present? %>
+      <div class="mx-auto mt-4 max-w-5xl px-5">
+        <div class="flex items-center gap-3 rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm font-medium text-merah">
+          <%= ikon "peringatan", kelas: "h-5 w-5 shrink-0" %>
+          <%= alert %>
+        </div>
+      </div>
+    <% end %>
+
+    <%= yield %>
+
+    <footer class="mt-16 border-t border-garis py-8">
+      <div class="mx-auto flex max-w-5xl flex-col gap-2 px-5 text-xs text-tinta/50 sm:flex-row sm:items-center sm:justify-between">
+        <span>Tableflow-Scan — sistem pemesanan meja berbasis kode QR.</span>
+        <span>Dibangun dengan Ruby on Rails.</span>
+      </div>
+    </footer>
+  </body>
+</html>

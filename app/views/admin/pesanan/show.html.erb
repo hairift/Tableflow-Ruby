@@ -1,0 +1,132 @@
+<% content_for :title, "#{@pesanan.kode_pesanan} — Panel Tableflow-Scan" %>
+
+<div class="flex flex-wrap items-end justify-between gap-3">
+  <div>
+    <%= link_to admin_pesanan_index_path, class: "text-xs font-semibold text-tinta/45 hover:text-terakota" do %>
+      <%= ikon "kiri", kelas: "mr-1 inline h-3.5 w-3.5" %> Kembali ke daftar
+    <% end %>
+    <h1 class="judul-display mt-2 text-3xl"><%= @pesanan.kode_pesanan %></h1>
+    <p class="mt-1 text-sm text-tinta/50">
+      <%= @pesanan.meja&.nomor_meja || "Pesanan manual" %> ·
+      <%= @pesanan.created_at.in_time_zone("Asia/Jakarta").strftime("%d/%m/%Y %H:%M") %>
+    </p>
+  </div>
+  <span class="lencana lencana-<%= @pesanan.selesai? ? 'hijau' : (@pesanan.dibatalkan? ? 'merah' : 'emas') %> text-xs">
+    <%= @pesanan.status.tr("_", " ") %>
+  </span>
+</div>
+
+<div class="mt-6 grid gap-6 lg:grid-cols-3">
+  <div class="kartu overflow-hidden lg:col-span-2">
+    <div class="border-b border-garis px-5 py-4">
+      <h2 class="text-sm font-bold">Rincian pesanan</h2>
+    </div>
+    <div class="divide-y divide-garis">
+      <% @pesanan.item_pesanan.each do |item| %>
+        <div class="flex items-start justify-between gap-4 px-5 py-4">
+          <div>
+            <p class="text-sm font-bold"><%= item.produk.nama %> <span class="text-tinta/45">x<%= item.jumlah %></span></p>
+            <% if item.varian_item_pesanan.any? %>
+              <p class="mt-1 text-xs text-tinta/50"><%= item.varian_item_pesanan.map(&:nama_opsi).join(", ") %></p>
+            <% end %>
+            <% if item.catatan.present? %>
+              <p class="mt-1 text-xs italic text-tinta/45"><%= item.catatan %></p>
+            <% end %>
+          </div>
+          <span class="bilangan shrink-0 text-sm font-bold">Rp <%= number_with_delimiter(item.subtotal.to_i) %></span>
+        </div>
+      <% end %>
+    </div>
+    <div class="space-y-1.5 border-t border-garis bg-krim px-5 py-4 text-sm">
+      <div class="flex justify-between text-tinta/60"><span>Subtotal</span><span class="bilangan">Rp <%= number_with_delimiter(@pesanan.subtotal.to_i) %></span></div>
+      <div class="flex justify-between text-tinta/60"><span>Diskon</span><span class="bilangan">- Rp <%= number_with_delimiter(@pesanan.jumlah_diskon.to_i) %></span></div>
+      <div class="flex justify-between text-tinta/60"><span>Pajak</span><span class="bilangan">Rp <%= number_with_delimiter(@pesanan.jumlah_pajak.to_i) %></span></div>
+      <div class="flex justify-between text-tinta/60"><span>Biaya layanan</span><span class="bilangan">Rp <%= number_with_delimiter(@pesanan.jumlah_biaya_layanan.to_i) %></span></div>
+      <div class="flex justify-between border-t border-garis pt-2 text-base font-extrabold"><span>Total</span><span class="bilangan text-terakota">Rp <%= number_with_delimiter(@pesanan.total_harga.to_i) %></span></div>
+    </div>
+  </div>
+
+  <div class="space-y-6">
+    <div class="kartu p-5">
+      <h2 class="text-sm font-bold">Pembayaran</h2>
+      <% if @pesanan.pembayaran %>
+        <dl class="mt-4 space-y-2 text-sm">
+          <div class="flex justify-between"><dt class="text-tinta/50">Metode</dt><dd class="font-bold uppercase"><%= @pesanan.pembayaran.metode %></dd></div>
+          <div class="flex justify-between"><dt class="text-tinta/50">Jumlah</dt><dd class="bilangan font-bold">Rp <%= number_with_delimiter(@pesanan.pembayaran.jumlah.to_i) %></dd></div>
+          <% if @pesanan.pembayaran.uang_diterima.present? %>
+            <div class="flex justify-between"><dt class="text-tinta/50">Kembalian</dt><dd class="bilangan">Rp <%= number_with_delimiter(@pesanan.pembayaran.kembalian.to_i) %></dd></div>
+          <% end %>
+          <% if @pesanan.pembayaran.bukti_file.present? %>
+            <div class="pt-2">
+              <%= link_to "/api/publik/gambar-qris/#{@pesanan.pembayaran.bukti_file}", target: "_blank", rel: "noopener", class: "text-xs font-bold text-terakota hover:underline" do %>
+                <%= ikon "mata", kelas: "mr-1 inline h-4 w-4" %> Lihat bukti transfer
+              <% end %>
+            </div>
+          <% end %>
+        </dl>
+      <% else %>
+        <p class="mt-4 text-sm text-tinta/45">Belum ada pembayaran.</p>
+      <% end %>
+    </div>
+
+    <div class="kartu p-5">
+      <h2 class="text-sm font-bold">Tindakan</h2>
+      <div class="mt-4 space-y-2">
+        <% if @pesanan.menunggu? && @pesanan.qris? %>
+          <%= button_to konfirmasi_bayar_admin_pesanan_path(@pesanan), method: :patch, class: "tombol tombol-utama w-full !text-xs" do %>
+            <%= ikon "uang", kelas: "h-4 w-4" %> Konfirmasi pembayaran QRIS
+          <% end %>
+        <% elsif @pesanan.menunggu_verifikasi? %>
+          <%= button_to verifikasi_qris_admin_pesanan_path(@pesanan), method: :patch, class: "tombol tombol-utama w-full !text-xs" do %>
+            <%= ikon "centang-lingkar", kelas: "h-4 w-4" %> Verifikasi pembayaran
+          <% end %>
+        <% elsif @pesanan.menunggu? %>
+          <%= form_with url: konfirmasi_bayar_admin_pesanan_path(@pesanan), method: :patch do |form| %>
+            <%= form.label :uang_diterima, "Uang diterima", class: "label-form" %>
+            <%= form.number_field :uang_diterima, min: 0, class: "kolom-form" %>
+            <%= form.button class: "tombol tombol-utama mt-3 w-full !text-xs" do %>
+              <%= ikon "uang", kelas: "h-4 w-4" %> Konfirmasi tunai/debit
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <% if admin? && Tableflow::StatusPesanan.lanjutan(@pesanan.status) %>
+          <%= form_with url: status_admin_pesanan_path(@pesanan), method: :patch do |form| %>
+            <%= form.hidden_field :status_baru, value: Tableflow::StatusPesanan.lanjutan(@pesanan.status) %>
+            <%= form.button class: "tombol tombol-gelap w-full !text-xs" do %>
+              <%= ikon "kanan", kelas: "h-4 w-4" %> Lanjut ke <%= Tableflow::StatusPesanan.lanjutan(@pesanan.status).tr("_", " ") %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <% if admin? && @pesanan.dapat_dibatalkan? %>
+          <details class="rounded-xl border border-merah/25 bg-[#fdf5f3] p-3">
+            <summary class="cursor-pointer text-xs font-bold text-merah">Batalkan pesanan</summary>
+            <%= form_with url: batalkan_admin_pesanan_path(@pesanan), method: :patch, class: "mt-3 space-y-2" do |form| %>
+              <%= form.text_field :alasan, placeholder: "Alasan pembatalan", required: true, class: "kolom-form !text-xs" %>
+              <% if @pesanan.sudah_lunas? %>
+                <%= form.password_field :pin, placeholder: "PIN petugas", required: true, class: "kolom-form !text-xs" %>
+                <%= form.number_field :jumlah_pengembalian, placeholder: "Jumlah pengembalian", min: 0, class: "kolom-form !text-xs" %>
+              <% end %>
+              <%= form.button class: "tombol tombol-bahaya w-full !text-xs" do %>Konfirmasi pembatalan<% end %>
+            <% end %>
+          </details>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="kartu mt-6 overflow-hidden">
+  <div class="border-b border-garis px-5 py-4">
+    <h2 class="text-sm font-bold">Riwayat status pesanan ini</h2>
+  </div>
+  <div class="divide-y divide-garis">
+    <% @pesanan.log_status_pesanan.order(created_at: :desc).each do |log| %>
+      <div class="flex items-center justify-between px-5 py-3 text-sm">
+        <span class="text-tinta/60"><%= log.status_dari || "baru" %> → <strong><%= log.status_ke %></strong></span>
+        <span class="text-xs text-tinta/45"><%= log.created_at.in_time_zone("Asia/Jakarta").strftime("%d/%m %H:%M") %></span>
+      </div>
+    <% end %>
+  </div>
+</div>

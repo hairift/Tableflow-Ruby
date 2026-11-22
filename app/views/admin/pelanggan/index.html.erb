@@ -1,0 +1,28 @@
+<% content_for :title, "Member — Panel Tableflow-Scan" %>
+
+<div>
+  <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Loyalitas</p>
+  <h1 class="judul-display mt-1 text-3xl">Member</h1>
+</div>
+
+<div class="kartu mt-6 overflow-hidden">
+  <% if @pelanggan.any? %>
+    <table class="tabel-data">
+      <thead><tr><th>Nama</th><th>Telepon</th><th>Poin</th><th>Tingkat</th><th>Pesanan</th><th></th></tr></thead>
+      <tbody>
+        <% @pelanggan.each do |pelanggan| %>
+          <tr>
+            <td class="font-bold"><%= pelanggan.nama || "Member baru" %></td>
+            <td><%= pelanggan.telepon %></td>
+            <td class="bilangan font-extrabold text-terakota"><%= pelanggan.poin %></td>
+            <td><%= pelanggan.tingkat_tertinggi ? "#{pelanggan.tingkat_tertinggi.min_poin} poin" : "—" %></td>
+            <td><%= pelanggan.pesanan.count %></td>
+            <td><%= link_to "Detail", admin_pelanggan_path(pelanggan), class: "text-xs font-bold text-terakota" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="px-5 py-12 text-center text-sm text-tinta/45">Belum ada member terdaftar.</p>
+  <% end %>
+</div>

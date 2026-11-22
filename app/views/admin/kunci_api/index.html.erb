@@ -1,0 +1,44 @@
+<% content_for :title, "Kunci API — Panel Tableflow-Scan" %>
+
+<div>
+  <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Pengelolaan</p>
+  <h1 class="judul-display mt-1 text-3xl">Kunci API</h1>
+  <p class="mt-2 max-w-2xl text-sm text-tinta/55">Kunci untuk pembacaan data pesanan dan produk oleh sistem eksternal. Kunci asli hanya ditampilkan sekali saat dibuat.</p>
+</div>
+
+<% if @kunci_baru.present? %>
+  <div class="mt-6 rounded-xl border border-emas/40 bg-[#fbf0d9] px-5 py-4">
+    <p class="text-sm font-bold">Salin kunci berikut sekarang juga</p>
+    <code class="mt-2 block break-all rounded-lg bg-white px-3 py-2 text-xs"><%= @kunci_baru %></code>
+    <p class="mt-2 text-[11px] text-tinta/55">Kunci tidak dapat ditampilkan lagi setelah halaman ini ditinggalkan.</p>
+  </div>
+<% end %>
+
+<div class="kartu mt-6 p-6">
+  <%= form_with url: admin_kunci_api_index_path, method: :post, class: "flex flex-wrap items-end gap-3" do |form| %>
+    <div class="flex-1"><%= form.label :nama, "Nama integrasi", class: "label-form" %><%= form.text_field :nama, class: "kolom-form", required: true, placeholder: "Contoh: sistem akuntansi" %></div>
+    <%= form.button class: "tombol tombol-utama" do %><%= ikon "kunci-api", kelas: "h-4 w-4" %> Terbitkan kunci<% end %>
+  <% end %>
+</div>
+
+<div class="kartu mt-6 overflow-hidden">
+  <table class="tabel-data">
+    <thead><tr><th>Nama</th><th>Akhir kunci</th><th>Dibuat</th><th>Terakhir dipakai</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      <% @kunci.each do |kunci| %>
+        <tr>
+          <td class="font-bold"><%= kunci.nama %></td>
+          <td class="font-mono text-xs">...<%= kunci.akhir_kunci %></td>
+          <td class="text-xs"><%= kunci.created_at.in_time_zone("Asia/Jakarta").strftime("%d/%m/%Y") %></td>
+          <td class="text-xs"><%= kunci.digunakan_pada&.in_time_zone("Asia/Jakarta")&.strftime("%d/%m %H:%M") || "Belum pernah" %></td>
+          <td><span class="lencana lencana-<%= kunci.dicabut_pada.present? ? 'merah' : 'hijau' %>"><%= kunci.dicabut_pada.present? ? "Dicabut" : "Aktif" %></span></td>
+          <td>
+            <% if kunci.dicabut_pada.blank? %>
+              <%= button_to "Cabut", admin_kunci_api_path(kunci), method: :delete, class: "text-xs font-bold text-merah" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

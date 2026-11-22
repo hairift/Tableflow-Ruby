@@ -1,0 +1,24 @@
+<%= form_with model: [:admin, meja], local: true, class: "space-y-4" do |form| %>
+  <% if meja.errors.any? %>
+    <div class="rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm text-merah">
+      <%= meja.errors.full_messages.join(", ") %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :nomor_meja, "Nomor meja", class: "label-form" %>
+    <%= form.text_field :nomor_meja, class: "kolom-form", required: true %>
+  </div>
+  <div>
+    <%= form.label :kapasitas, "Kapasitas kursi", class: "label-form" %>
+    <%= form.number_field :kapasitas, min: 1, class: "kolom-form" %>
+  </div>
+  <label class="flex items-center gap-2 text-sm font-semibold">
+    <%= form.check_box :aktif, class: "h-4 w-4 accent-terakota" %> Meja aktif
+  </label>
+
+  <div class="flex gap-2 pt-2">
+    <%= form.button class: "tombol tombol-utama" do %><%= meja.persisted? ? "Simpan perubahan" : "Tambah meja" %><% end %>
+    <%= link_to "Batal", admin_meja_index_path, class: "tombol tombol-garis" %>
+  </div>
+<% end %>

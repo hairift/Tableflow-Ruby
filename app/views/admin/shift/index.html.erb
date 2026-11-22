@@ -1,0 +1,67 @@
+<% content_for :title, "Shift — Panel Tableflow-Scan" %>
+
+<div>
+  <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Operasional</p>
+  <h1 class="judul-display mt-1 text-3xl">Shift kasir</h1>
+  <p class="mt-1 text-sm text-tinta/50">Pesanan baru hanya dapat dibuat saat ada shift aktif.</p>
+</div>
+
+<div class="kartu mt-6 p-6">
+  <h2 class="text-sm font-bold">Mulai shift baru</h2>
+  <%= form_with url: admin_shift_index_path, method: :post, class: "mt-4 grid gap-4 sm:grid-cols-3" do |form| %>
+    <div>
+      <%= form.label :nama_staf, "Nama staf bertugas", class: "label-form" %>
+      <%= form.text_field :nama_staf, class: "kolom-form", required: true, placeholder: "Nama petugas di lapangan" %>
+    </div>
+    <div>
+      <%= form.label :kas_awal, "Uang kas awal (Rp)", class: "label-form" %>
+      <%= form.number_field :kas_awal, min: 0, value: 0, class: "kolom-form" %>
+    </div>
+    <div class="flex items-end">
+      <%= form.button class: "tombol tombol-utama w-full" do %><%= ikon "jam", kelas: "h-4 w-4" %> Mulai shift<% end %>
+    </div>
+  <% end %>
+</div>
+
+<div class="kartu mt-6 overflow-hidden">
+  <div class="border-b border-garis px-5 py-4"><h2 class="text-sm font-bold">Shift berjalan</h2></div>
+  <% if @shift_berjalan.any? %>
+    <div class="divide-y divide-garis">
+      <% @shift_berjalan.each do |shift| %>
+        <div class="grid gap-4 px-5 py-4 sm:grid-cols-[1fr_auto] sm:items-center">
+          <div>
+            <p class="text-sm font-bold"><%= shift.nama_staf || shift.pengguna.username %></p>
+            <p class="text-xs text-tinta/50">Mulai <%= shift.mulai_pada.in_time_zone("Asia/Jakarta").strftime("%d/%m %H:%M") %> · Kas awal Rp <%= number_with_delimiter(shift.kas_awal.to_i) %></p>
+          </div>
+          <%= form_with url: selesai_admin_shift_index_path, method: :patch, class: "flex flex-wrap items-end gap-2" do |form| %>
+            <%= form.hidden_field :id, value: shift.id %>
+            <div><label class="label-form">Kas dihitung</label><%= form.number_field :kas_hitung, min: 0, class: "kolom-form !w-32" %></div>
+            <div><label class="label-form">Gojek</label><%= form.number_field :jumlah_gojek, min: 0, value: 0, class: "kolom-form !w-24" %></div>
+            <div><label class="label-form">Grab</label><%= form.number_field :jumlah_grabfood, min: 0, value: 0, class: "kolom-form !w-24" %></div>
+            <%= form.button class: "tombol tombol-gelap !text-xs" do %>Tutup shift<% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="px-5 py-8 text-center text-sm text-tinta/45">Tidak ada shift yang sedang berjalan.</p>
+  <% end %>
+</div>
+
+<div class="kartu mt-6 overflow-hidden">
+  <div class="border-b border-garis px-5 py-4"><h2 class="text-sm font-bold">Shift terakhir</h2></div>
+  <table class="tabel-data">
+    <thead><tr><th>Staf</th><th>Mulai</th><th>Selesai</th><th>Pendapatan tunai</th><th>Selisih kas</th></tr></thead>
+    <tbody>
+      <% @shift_selesai.each do |shift| %>
+        <tr>
+          <td class="font-bold"><%= shift.nama_staf || shift.pengguna.username %></td>
+          <td class="text-xs"><%= shift.mulai_pada.in_time_zone("Asia/Jakarta").strftime("%d/%m %H:%M") %></td>
+          <td class="text-xs"><%= shift.selesai_pada.in_time_zone("Asia/Jakarta").strftime("%d/%m %H:%M") %></td>
+          <td class="bilangan">Rp <%= number_with_delimiter(shift.pendapatan_tunai.to_i) %></td>
+          <td class="bilangan font-bold <%= shift.selisih_kas.to_i.negative? ? 'text-merah' : 'text-hijau' %>">Rp <%= number_with_delimiter(shift.selisih_kas.to_i) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

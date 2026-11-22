@@ -1,0 +1,33 @@
+<% content_for :title, "Panggilan staf — Panel Tableflow-Scan" %>
+
+<div>
+  <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Operasional</p>
+  <h1 class="judul-display mt-1 text-3xl">Panggilan staf</h1>
+</div>
+
+<div class="kartu mt-6 overflow-hidden">
+  <% if @panggilan.any? %>
+    <table class="tabel-data">
+      <thead><tr><th>Meja</th><th>Kebutuhan</th><th>Waktu</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        <% @panggilan.each do |panggilan| %>
+          <tr>
+            <td class="font-bold">Meja <%= panggilan.meja.nomor_meja %></td>
+            <td><%= panggilan.catatan %></td>
+            <td class="text-xs text-tinta/50"><%= panggilan.created_at.in_time_zone("Asia/Jakarta").strftime("%d/%m %H:%M") %></td>
+            <td><span class="lencana lencana-<%= panggilan.menunggu? ? 'emas' : 'hijau' %>"><%= panggilan.status %></span></td>
+            <td>
+              <% if panggilan.menunggu? %>
+                <%= button_to "Tandai selesai", admin_panggilan_staf_path(panggilan), method: :patch, class: "tombol tombol-garis !py-1.5 !text-[11px]" %>
+              <% else %>
+                <span class="text-xs text-tinta/45"><%= panggilan.diselesaikan_oleh&.username %></span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="px-5 py-12 text-center text-sm text-tinta/45">Belum ada panggilan dari meja.</p>
+  <% end %>
+</div>

@@ -1,0 +1,29 @@
+<% content_for :title, "#{@reservasi.nama_pelanggan} — Panel Tableflow-Scan" %>
+<div class="flex flex-wrap items-end justify-between gap-3">
+  <div>
+    <%= link_to admin_reservasi_index_path, class: "text-xs font-semibold text-tinta/45" do %><%= ikon "kiri", kelas: "mr-1 inline h-3.5 w-3.5" %> Kembali<% end %>
+    <h1 class="judul-display mt-2 text-3xl"><%= @reservasi.nama_pelanggan %></h1>
+    <p class="mt-1 text-sm text-tinta/50"><%= @reservasi.nama_acara || "Reservasi meja" %></p>
+  </div>
+  <%= link_to edit_admin_reservasi_path(@reservasi), class: "tombol tombol-gelap !text-xs" do %><%= ikon "sunting", kelas: "h-4 w-4" %> Edit<% end %>
+</div>
+
+<div class="kartu mt-6 grid gap-6 p-6 sm:grid-cols-2">
+  <% [["Waktu", @reservasi.tanggal_reservasi.in_time_zone("Asia/Jakarta").strftime("%d/%m/%Y %H:%M")],
+      ["Jumlah tamu", @reservasi.jumlah_tamu],
+      ["Meja", @reservasi.meja&.nomor_meja || "Belum ditentukan"],
+      ["Status", @reservasi.status],
+      ["Deposit", "Rp #{number_with_delimiter(@reservasi.jumlah_deposit.to_i)} (#{@reservasi.deposit_lunas? ? 'lunas' : 'belum lunas'})"],
+      ["Telepon", @reservasi.telepon || "—"]].each do |label, nilai| %>
+    <div>
+      <p class="text-[11px] font-bold uppercase tracking-wide text-tinta/45"><%= label %></p>
+      <p class="mt-1 text-sm font-bold"><%= nilai %></p>
+    </div>
+  <% end %>
+  <% if @reservasi.catatan.present? %>
+    <div class="sm:col-span-2 border-t border-garis pt-4">
+      <p class="text-[11px] font-bold uppercase tracking-wide text-tinta/45">Catatan</p>
+      <p class="mt-1 text-sm"><%= @reservasi.catatan %></p>
+    </div>
+  <% end %>
+</div>
