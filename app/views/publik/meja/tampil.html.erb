@@ -1,4 +1,4 @@
-<% content_for :title, "Meja #{@meja.nomor_meja} — Tableflow-Scan" %>
+<% content_for :title, "Meja #{@meja.nomor_meja} | Tableflow-Scan" %>
 
 <div data-controller="pemesanan"
      data-pemesanan-token="<%= @meja.token_qr %>"
@@ -50,7 +50,7 @@
   <div class="mx-auto max-w-5xl px-5 pt-8">
     <div class="flex items-end justify-between gap-4">
       <div>
-        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Menu hari ini</p>
+        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Menu hari ini</p>
         <h2 class="judul-display mt-1 text-3xl">Pilih yang ingin Anda pesan</h2>
       </div>
       <p class="hidden text-xs text-tinta/50 sm:block"><%= @pengaturan.nama_tampil %></p>
@@ -85,7 +85,7 @@
               <p class="mt-1 text-[11px] text-tinta/45"><%= ikon "jam", kelas: "mr-1 inline h-3.5 w-3.5" %><%= kat.estimasi_menit %> menit</p>
             <% end %>
             <div class="mt-auto flex items-center justify-between pt-4">
-              <span class="bilangan text-base font-extrabold text-terakota">Rp <%= number_with_delimiter(produk.harga.to_i) %></span>
+              <span class="bilangan text-base font-extrabold text-aksen">Rp <%= number_with_delimiter(produk.harga.to_i) %></span>
               <button type="button" data-action="pemesanan#tambah" data-pemesanan-produk-param="<%= produk.id %>"
                       class="tombol tombol-gelap !rounded-lg !px-3 !py-2 !text-xs">
                 <%= ikon "tambah", kelas: "h-4 w-4" %> Tambah
@@ -130,8 +130,8 @@
         <label class="label-form">Metode pembayaran</label>
         <div class="grid grid-cols-3 gap-2">
           <% [["qris", "QRIS"], ["tunai", "Tunai"], ["debit", "Debit"]].each_with_index do |(nilai, label), i| %>
-            <label class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-garis px-2 py-2.5 text-xs font-bold has-[:checked]:border-terakota has-[:checked]:bg-terakota/5">
-              <input type="radio" name="metode_bayar" value="<%= nilai %>" <%= "checked" if i.zero? %> data-pemesanan-target="metodeBayar" class="accent-terakota">
+            <label class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-garis px-2 py-2.5 text-xs font-bold has-[:checked]:border-aksen has-[:checked]:bg-aksen/5">
+              <input type="radio" name="metode_bayar" value="<%= nilai %>" <%= "checked" if i.zero? %> data-pemesanan-target="metodeBayar" class="accent-aksen">
               <%= label %>
             </label>
           <% end %>
@@ -167,8 +167,8 @@
   <div class="kartu relative w-full max-w-lg p-6">
     <div class="flex items-start justify-between">
       <div>
-        <p class="text-[11px] font-bold uppercase tracking-[0.14em] text-terakota">Pesanan Anda</p>
-        <h3 class="judul-display mt-1 text-2xl" data-pemesanan-target="kodeStatus">—</h3>
+        <p class="text-[11px] font-bold uppercase tracking-[0.14em] text-aksen">Pesanan Anda</p>
+        <h3 class="judul-display mt-1 text-2xl" data-pemesanan-target="kodeStatus">-</h3>
       </div>
       <button type="button" data-action="pemesanan#tutupStatus" class="rounded-lg p-2 hover:bg-krim-2"><%= ikon "tutup" %></button>
     </div>
@@ -205,8 +205,8 @@
     <p class="mt-2 text-xs text-tinta/55">Pilih kebutuhan Anda. Petugas terdekat akan segera datang.</p>
     <div class="mt-5 grid grid-cols-2 gap-2">
       <% [["air minum", "Air minum"], ["alat makan", "Alat makan"], ["bantuan menu", "Bantuan menu"], ["tagihan", "Tagihan"]].each do |nilai, label| %>
-        <label class="flex cursor-pointer items-center gap-2 rounded-lg border border-garis px-3 py-2.5 text-xs font-semibold has-[:checked]:border-terakota has-[:checked]:bg-terakota/5">
-          <input type="radio" name="alasan_panggilan" value="<%= nilai %>" <%= "checked" if nilai == "air minum" %> data-pemesanan-target="alasanPanggilan" class="accent-terakota">
+        <label class="flex cursor-pointer items-center gap-2 rounded-lg border border-garis px-3 py-2.5 text-xs font-semibold has-[:checked]:border-aksen has-[:checked]:bg-aksen/5">
+          <input type="radio" name="alasan_panggilan" value="<%= nilai %>" <%= "checked" if nilai == "air minum" %> data-pemesanan-target="alasanPanggilan" class="accent-aksen">
           <%= label %>
         </label>
       <% end %>

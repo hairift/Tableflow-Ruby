@@ -1,6 +1,6 @@
 <%= form_with model: [:admin, tingkat], local: true, class: "space-y-4" do |form| %>
   <% if tingkat.errors.any? %>
-    <div class="rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm text-merah"><%= tingkat.errors.full_messages.join(", ") %></div>
+    <div class="rounded-xl border border-merah/25 bg-[#fdecea] px-4 py-3 text-sm text-merah"><%= tingkat.errors.full_messages.join(", ") %></div>
   <% end %>
   <div>
     <%= form.label :min_poin, "Minimal poin", class: "label-form" %>

@@ -1,7 +1,7 @@
-<% content_for :title, "Laporan — Panel Tableflow-Scan" %>
+<% content_for :title, "Laporan | Panel Tableflow-Scan" %>
 
 <div>
-  <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Pengelolaan</p>
+  <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Pengelolaan</p>
   <h1 class="judul-display mt-1 text-3xl">Laporan pendapatan</h1>
 </div>
 
@@ -17,11 +17,11 @@
 </div>
 
 <% if @ringkasan[:error] %>
-  <p class="mt-4 rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm text-merah"><%= @ringkasan[:error] %></p>
+  <p class="mt-4 rounded-xl border border-merah/25 bg-[#fdecea] px-4 py-3 text-sm text-merah"><%= @ringkasan[:error] %></p>
 <% else %>
   <div class="mt-6 grid gap-4 sm:grid-cols-3">
     <div class="kartu p-5"><p class="text-xs text-tinta/50">Jumlah pesanan</p><p class="judul-display mt-2 text-3xl"><%= @ringkasan[:jumlah_pesanan] %></p></div>
-    <div class="kartu p-5"><p class="text-xs text-tinta/50">Total pendapatan</p><p class="judul-display mt-2 text-3xl text-terakota">Rp <%= number_with_delimiter(@ringkasan[:total_pendapatan].to_i) %></p></div>
+    <div class="kartu p-5"><p class="text-xs text-tinta/50">Total pendapatan</p><p class="judul-display mt-2 text-3xl text-aksen">Rp <%= number_with_delimiter(@ringkasan[:total_pendapatan].to_i) %></p></div>
     <div class="kartu p-5"><p class="text-xs text-tinta/50">Estimasi laba</p><p class="judul-display mt-2 text-3xl text-hijau">Rp <%= number_with_delimiter(@ringkasan[:estimasi_margin][:laba].to_i) %></p></div>
   </div>
 

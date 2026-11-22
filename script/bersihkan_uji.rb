@@ -1,5 +1,5 @@
 # Hapus pesanan yang dibuat saat pengujian agar data demo tetap bersih.
-uji = Pesanan.where("catatan LIKE ? OR catatan LIKE ?", "%uji%", "%smoke test%")
+uji = Pesanan.where("catatan LIKE ? OR catatan LIKE ? OR catatan IS NULL", "%uji%", "%smoke test%")
 puts "Pesanan uji ditemukan: #{uji.count}"
 uji.find_each do |pesanan|
   Tableflow::PengelolaPesanan.kembalikan_stok(pesanan) unless pesanan.dibatalkan?

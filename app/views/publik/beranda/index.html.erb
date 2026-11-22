@@ -1,15 +1,15 @@
-<% content_for :title, "Tableflow-Scan — Pesan dari meja Anda" %>
+<% content_for :title, "Tableflow-Scan | Pesan dari meja Anda" %>
 
 <section class="mx-auto grid max-w-5xl items-center gap-12 px-5 pb-10 pt-14 lg:grid-cols-2 lg:pt-20">
   <div>
     <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-garis bg-white px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-tinta/60">
-      <%= ikon "pindai", kelas: "h-4 w-4 text-terakota" %>
+      <%= ikon "pindai", kelas: "h-4 w-4 text-aksen" %>
       Sistem pemesanan meja
     </div>
 
     <h1 class="judul-display text-5xl leading-[1.05] text-tinta sm:text-6xl">
       Pesan dari meja.<br>
-      <span class="text-terakota">Tanpa antre.</span>
+      <span class="text-aksen">Tanpa antre.</span>
     </h1>
 
     <p class="mt-6 max-w-md text-base leading-relaxed text-tinta/65">
@@ -36,8 +36,8 @@
   </div>
 
   <div class="relative mx-auto w-full max-w-sm">
-    <div class="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-emas/15 blur-2xl"></div>
-    <div class="absolute -bottom-8 -right-6 h-32 w-32 rounded-full bg-terakota/15 blur-2xl"></div>
+    <div class="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-[#cbd5e1]/60 blur-2xl"></div>
+    <div class="absolute -bottom-8 -right-6 h-32 w-32 rounded-full bg-aksen/15 blur-2xl"></div>
 
     <div class="relative rounded-[26px] border-[7px] border-tinta bg-white p-5 shadow-[0_24px_60px_-30px_rgba(22,35,46,0.35)]">
       <div class="mb-5 flex items-center justify-between">
@@ -55,7 +55,7 @@
       <% [["Kopi Susu Gula Aren", "Rp 18.000"], ["Teh Tarik Hangat", "Rp 12.000"], ["Roti Bakar Keju", "Rp 16.000"]].each do |nama, harga| %>
         <div class="mb-2 flex items-center justify-between rounded-xl border border-garis px-3 py-2.5">
           <span class="text-xs font-semibold"><%= nama %></span>
-          <span class="bilangan text-xs font-bold text-terakota"><%= harga %></span>
+          <span class="bilangan text-xs font-bold text-aksen"><%= harga %></span>
         </div>
       <% end %>
 
@@ -69,7 +69,7 @@
 
 <section class="border-y border-garis bg-white">
   <div class="mx-auto max-w-5xl px-5 py-14">
-    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Alur kerja</p>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Alur kerja</p>
     <h2 class="judul-display mt-2 text-3xl">Tiga langkah sampai pesanan sampai</h2>
 
     <div class="mt-9 grid gap-5 md:grid-cols-3">
@@ -81,7 +81,7 @@
         <div class="kartu p-6">
           <div class="mb-5 flex items-center justify-between">
             <span class="judul-display text-2xl text-garis"><%= nomor %></span>
-            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-krim-2 text-terakota"><%= ikon nama_ikon %></span>
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-krim-2 text-aksen"><%= ikon nama_ikon %></span>
           </div>
           <h3 class="text-base font-bold"><%= judul %></h3>
           <p class="mt-2 text-sm leading-relaxed text-tinta/60"><%= isi %></p>
@@ -94,7 +94,7 @@
 <section class="mx-auto max-w-5xl px-5 py-14">
   <div class="grid gap-8 md:grid-cols-2 md:items-center">
     <div>
-      <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Untuk petugas</p>
+      <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Untuk petugas</p>
       <h2 class="judul-display mt-2 text-3xl">Satu panel untuk seluruh operasional</h2>
       <p class="mt-4 text-sm leading-relaxed text-tinta/60">
         Kelola pesanan masuk, konfirmasi pembayaran, atur stok dan meja, catat shift, reservasi, member,

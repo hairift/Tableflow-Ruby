@@ -1,8 +1,8 @@
-<% content_for :title, "Produk — Panel Tableflow-Scan" %>
+<% content_for :title, "Produk | Panel Tableflow-Scan" %>
 
 <div class="flex flex-wrap items-end justify-between gap-3">
   <div>
-    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Menu</p>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Menu</p>
     <h1 class="judul-display mt-1 text-3xl">Produk</h1>
   </div>
   <%= link_to new_admin_produk_path, class: "tombol tombol-gelap !text-xs" do %>
@@ -31,7 +31,7 @@
             </td>
             <td><%= produk.grup_varian.count %></td>
             <td><span class="lencana lencana-<%= produk.tersedia? ? 'hijau' : 'netral' %>"><%= produk.tersedia? ? "Tersedia" : "Habis" %></span></td>
-            <td><%= link_to "Edit", edit_admin_produk_path(produk), class: "text-xs font-bold text-terakota" %></td>
+            <td><%= link_to "Edit", edit_admin_produk_path(produk), class: "text-xs font-bold text-aksen" %></td>
           </tr>
         <% end %>
       </tbody>

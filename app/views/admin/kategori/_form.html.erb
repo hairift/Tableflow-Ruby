@@ -1,6 +1,6 @@
 <%= form_with model: [:admin, kategori], local: true, class: "space-y-4" do |form| %>
   <% if kategori.errors.any? %>
-    <div class="rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm text-merah"><%= kategori.errors.full_messages.join(", ") %></div>
+    <div class="rounded-xl border border-merah/25 bg-[#fdecea] px-4 py-3 text-sm text-merah"><%= kategori.errors.full_messages.join(", ") %></div>
   <% end %>
   <div>
     <%= form.label :nama, "Nama kategori", class: "label-form" %>
@@ -16,7 +16,7 @@
       <%= form.number_field :estimasi_menit, min: 1, class: "kolom-form" %>
     </div>
   </div>
-  <label class="flex items-center gap-2 text-sm font-semibold"><%= form.check_box :aktif, class: "h-4 w-4 accent-terakota" %> Kategori aktif</label>
+  <label class="flex items-center gap-2 text-sm font-semibold"><%= form.check_box :aktif, class: "h-4 w-4 accent-aksen" %> Kategori aktif</label>
   <div class="flex gap-2 pt-2">
     <%= form.button class: "tombol tombol-utama" do %><%= kategori.persisted? ? "Simpan" : "Tambah" %><% end %>
     <%= link_to "Batal", admin_kategori_index_path, class: "tombol tombol-garis" %>

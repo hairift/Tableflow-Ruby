@@ -3,7 +3,7 @@
   <head>
     <title><%= content_for?(:title) ? yield(:title) : "Panel Tableflow-Scan" %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#16232E">
+    <meta name="theme-color" content="#0f1c2a">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -24,7 +24,7 @@
           <div class="flex items-center gap-2.5 px-2 pb-7">
             <%= tag.img src: "/logo-tableflow.svg", alt: "Tableflow-Scan", class: "h-10 w-10" %>
             <span class="leading-tight">
-              <span class="block judul-display text-[15px]">Tableflow<span class="text-terakota">-Scan</span></span>
+              <span class="block judul-display text-[15px]">Tableflow<span class="text-aksen">-Scan</span></span>
               <span class="block text-[10px] font-semibold uppercase tracking-[0.16em] text-krim/50">Panel operasional</span>
             </span>
           </div>
@@ -88,14 +88,14 @@
 
           <% if notice.present? %>
             <div class="px-5 pt-5 sm:px-8">
-              <div class="flex items-center gap-3 rounded-xl border border-hijau/25 bg-[#e2f0ec] px-4 py-3 text-sm font-medium text-hijau">
+              <div class="flex items-center gap-3 rounded-xl border border-hijau/25 bg-[#e7f4ee] px-4 py-3 text-sm font-medium text-hijau">
                 <%= ikon "centang-lingkar", kelas: "h-5 w-5 shrink-0" %><%= notice %>
               </div>
             </div>
           <% end %>
           <% if alert.present? %>
             <div class="px-5 pt-5 sm:px-8">
-              <div class="flex items-center gap-3 rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm font-medium text-merah">
+              <div class="flex items-center gap-3 rounded-xl border border-merah/25 bg-[#fdecea] px-4 py-3 text-sm font-medium text-merah">
                 <%= ikon "peringatan", kelas: "h-5 w-5 shrink-0" %><%= alert %>
               </div>
             </div>

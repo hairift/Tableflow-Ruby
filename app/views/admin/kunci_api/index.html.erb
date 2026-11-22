@@ -1,13 +1,13 @@
-<% content_for :title, "Kunci API — Panel Tableflow-Scan" %>
+<% content_for :title, "Kunci API | Panel Tableflow-Scan" %>
 
 <div>
-  <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Pengelolaan</p>
+  <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Pengelolaan</p>
   <h1 class="judul-display mt-1 text-3xl">Kunci API</h1>
   <p class="mt-2 max-w-2xl text-sm text-tinta/55">Kunci untuk pembacaan data pesanan dan produk oleh sistem eksternal. Kunci asli hanya ditampilkan sekali saat dibuat.</p>
 </div>
 
 <% if @kunci_baru.present? %>
-  <div class="mt-6 rounded-xl border border-emas/40 bg-[#fbf0d9] px-5 py-4">
+  <div class="mt-6 rounded-xl border border-emas/40 bg-[#fdf3dd] px-5 py-4">
     <p class="text-sm font-bold">Salin kunci berikut sekarang juga</p>
     <code class="mt-2 block break-all rounded-lg bg-white px-3 py-2 text-xs"><%= @kunci_baru %></code>
     <p class="mt-2 text-[11px] text-tinta/55">Kunci tidak dapat ditampilkan lagi setelah halaman ini ditinggalkan.</p>

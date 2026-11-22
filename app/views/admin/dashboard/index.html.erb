@@ -1,8 +1,8 @@
-<% content_for :title, "Ringkasan — Panel Tableflow-Scan" %>
+<% content_for :title, "Ringkasan | Panel Tableflow-Scan" %>
 
 <div class="flex flex-wrap items-end justify-between gap-3">
   <div>
-    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Hari ini</p>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Hari ini</p>
     <h1 class="judul-display mt-1 text-3xl">Ringkasan operasional</h1>
   </div>
   <%= link_to admin_pesanan_index_path, class: "tombol tombol-gelap !text-xs" do %>
@@ -45,7 +45,7 @@
                 <td class="uppercase text-xs"><%= pesanan.metode %></td>
                 <td class="bilangan font-semibold">Rp <%= number_with_delimiter(pesanan.total_harga.to_i) %></td>
                 <td><span class="lencana lencana-<%= pesanan.menunggu_verifikasi? ? 'emas' : 'hijau' %>"><%= pesanan.status.tr("_", " ") %></span></td>
-                <td><%= link_to "Buka", admin_pesanan_path(pesanan), class: "text-xs font-bold text-terakota hover:underline" %></td>
+                <td><%= link_to "Buka", admin_pesanan_path(pesanan), class: "text-xs font-bold text-aksen hover:underline" %></td>
               </tr>
             <% end %>
           </tbody>
@@ -60,7 +60,7 @@
     <div class="kartu overflow-hidden">
       <div class="flex items-center justify-between border-b border-garis px-5 py-4">
         <h2 class="text-sm font-bold">Panggilan staf</h2>
-        <%= link_to "Semua", admin_panggilan_staf_index_path, class: "text-xs font-bold text-terakota" %>
+        <%= link_to "Semua", admin_panggilan_staf_index_path, class: "text-xs font-bold text-aksen" %>
       </div>
       <% if @panggilan_menunggu.any? %>
         <div class="divide-y divide-garis">
@@ -88,12 +88,12 @@
         <% Meja.aktif.order(:nomor_meja).each do |meja| %>
           <div class="rounded-lg border border-garis px-2 py-3 text-center">
             <p class="text-[10px] font-bold text-tinta/45"><%= meja.nomor_meja %></p>
-            <span class="mt-1 block h-2 w-2 mx-auto rounded-full <%= @meja_sibuk.include?(meja) ? 'bg-terakota' : 'bg-hijau' %>"></span>
+            <span class="mt-1 block h-2 w-2 mx-auto rounded-full <%= @meja_sibuk.include?(meja) ? 'bg-aksen' : 'bg-hijau' %>"></span>
           </div>
         <% end %>
       </div>
       <p class="border-t border-garis px-5 py-3 text-[11px] text-tinta/45">
-        <span class="mr-3 inline-block h-2 w-2 rounded-full bg-terakota"></span>Sibuk
+        <span class="mr-3 inline-block h-2 w-2 rounded-full bg-aksen"></span>Sibuk
         <span class="ml-4 mr-3 inline-block h-2 w-2 rounded-full bg-hijau"></span>Kosong
       </p>
     </div>

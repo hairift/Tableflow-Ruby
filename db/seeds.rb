@@ -39,19 +39,19 @@ end
 puts "Membuat kategori dan produk..."
 menu = {
   "Kopi" => [
-    ["Kopi Susu Gula Aren", 18000, 7000, [["Panas", 0], ["Dingin", 0], ["Extra Shot", 5000]]],
-    ["Americano", 15000, 5000, [["Panas", 0], ["Dingin", 0]]],
-    ["Flat White", 22000, 8000, [["Panas", 0], ["Dingin", 0], ["Oat Milk", 4000]]]
+    ["Kopi Susu Gula Aren", 18000, 7000, "kopi-susu-gula-aren.jpg", [["Panas", 0], ["Dingin", 0], ["Extra Shot", 5000]]],
+    ["Americano", 15000, 5000, "americano.jpg", [["Panas", 0], ["Dingin", 0]]],
+    ["Flat White", 22000, 8000, "flat-white.jpg", [["Panas", 0], ["Dingin", 0], ["Oat Milk", 4000]]]
   ],
   "Minuman" => [
-    ["Teh Tarik Hangat", 12000, 4000, [["Panas", 0], ["Dingin", 0]]],
-    ["Lemon Tea", 11000, 3500, [["Panas", 0], ["Dingin", 0], ["Extra Lemon", 2000]]],
-    ["Air Mineral", 5000, 2000, []]
+    ["Teh Tarik Hangat", 12000, 4000, "teh-tarik-hangat.jpg", [["Panas", 0], ["Dingin", 0]]],
+    ["Lemon Tea", 11000, 3500, "lemon-tea.jpg", [["Panas", 0], ["Dingin", 0], ["Extra Lemon", 2000]]],
+    ["Air Mineral", 5000, 2000, "air-mineral.jpg", []]
   ],
   "Makanan" => [
-    ["Roti Bakar Keju", 16000, 6000, [["Keju", 0], ["Cokelat", 0], ["Extra Keju", 3000]]],
-    ["Nasi Goreng Spesial", 28000, 12000, [["Pedas", 0], ["Tidak Pedas", 0], ["Extra Telur", 4000]]],
-    ["Croissant", 14000, 5000, []]
+    ["Roti Bakar Keju", 16000, 6000, "roti-bakar-keju.jpg", [["Keju", 0], ["Cokelat", 0], ["Extra Keju", 3000]]],
+    ["Nasi Goreng Spesial", 28000, 12000, "nasi-goreng-spesial.jpg", [["Pedas", 0], ["Tidak Pedas", 0], ["Extra Telur", 4000]]],
+    ["Croissant", 14000, 5000, "croissant.jpg", []]
   ]
 }
 
@@ -61,7 +61,7 @@ menu.each_with_index do |(nama_kategori, daftar), indeks|
     catat.estimasi_menit = nama_kategori == "Makanan" ? 15 : 7
   end
 
-  daftar.each do |nama, harga, modal, pilihan|
+  daftar.each do |nama, harga, modal, foto, pilihan|
     produk = Produk.find_or_create_by!(nama: nama, kategori: kategori) do |catat|
       catat.harga = harga
       catat.harga_modal = modal
@@ -69,6 +69,7 @@ menu.each_with_index do |(nama_kategori, daftar), indeks|
       catat.lacak_stok = false
       catat.tersedia = true
     end
+    produk.update!(foto: foto) unless produk.foto == foto
 
     next if produk.grup_varian.exists? || pilihan.empty?
 

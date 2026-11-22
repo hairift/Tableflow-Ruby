@@ -1,8 +1,8 @@
-<% content_for :title, "Pesanan manual — Panel Tableflow-Scan" %>
+<% content_for :title, "Pesanan manual | Panel Tableflow-Scan" %>
 
 <div class="flex flex-wrap items-end justify-between gap-3">
   <div>
-    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Kasir</p>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Kasir</p>
     <h1 class="judul-display mt-1 text-3xl">Pesanan manual</h1>
     <p class="mt-1 text-sm text-tinta/50">Untuk pembelian di counter atau takeaway.</p>
   </div>
@@ -20,9 +20,9 @@
       <% @produk.each_with_index do |produk, indeks| %>
         <label class="flex items-center gap-4 px-5 py-3.5 hover:bg-krim">
           <input type="hidden" name="item[<%= indeks %>][produk_id]" value="0">
-          <input type="checkbox" name="item[<%= indeks %>][produk_id]" value="<%= produk.id %>" class="h-4 w-4 accent-terakota">
+          <input type="checkbox" name="item[<%= indeks %>][produk_id]" value="<%= produk.id %>" class="h-4 w-4 accent-aksen">
           <span class="flex-1 text-sm font-semibold"><%= produk.nama %></span>
-          <span class="bilangan text-xs font-bold text-terakota">Rp <%= number_with_delimiter(produk.harga.to_i) %></span>
+          <span class="bilangan text-xs font-bold text-aksen">Rp <%= number_with_delimiter(produk.harga.to_i) %></span>
           <input type="number" name="item[<%= indeks %>][jumlah]" value="1" min="1" class="w-16 rounded-lg border border-garis px-2 py-1 text-center text-xs">
           <input type="hidden" name="item[<%= indeks %>][opsi_varian_ids][]" value="">
         </label>

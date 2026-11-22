@@ -75,17 +75,17 @@ export default class extends Controller {
     this.isiVarianTarget.innerHTML = produk.varian.map((grup) => `
       <div>
         <p class="mb-2 text-xs font-bold uppercase tracking-wide text-tinta/55">
-          ${this.aman(grup.nama)}${grup.wajib ? ' <span class="text-terakota">wajib</span>' : ""}
+          ${this.aman(grup.nama)}${grup.wajib ? ' <span class="text-aksen">wajib</span>' : ""}
         </p>
         <div class="space-y-1.5">
           ${grup.opsi.map((opsi) => `
-            <label class="flex items-center justify-between rounded-lg border border-garis px-3 py-2.5 text-sm has-[:checked]:border-terakota has-[:checked]:bg-terakota/5">
+            <label class="flex items-center justify-between rounded-lg border border-garis px-3 py-2.5 text-sm has-[:checked]:border-aksen has-[:checked]:bg-aksen/5">
               <span class="flex items-center gap-2">
                 <input type="${grup.ganda ? "checkbox" : "radio"}" name="varian-${grup.id}"
-                       data-varian-group="${grup.id}" value="${opsi.id}" class="accent-terakota">
+                       data-varian-group="${grup.id}" value="${opsi.id}" class="accent-aksen">
                 ${this.aman(opsi.nama)}
               </span>
-              <span class="bilangan text-xs font-bold text-terakota">+ ${this.rupiah(opsi.tambahan)}</span>
+              <span class="bilangan text-xs font-bold text-aksen">+ ${this.rupiah(opsi.tambahan)}</span>
             </label>
           `).join("")}
         </div>

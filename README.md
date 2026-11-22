@@ -203,6 +203,10 @@ ruby script/cek_rute.rb
 
 Skrip verifikasi browser ada di `script/screenshot.js`, `script/uji_Alur.js`, dan `script/cek_semua_halaman.js`. Skrip tersebut memakai Chrome yang terpasang secara lokal dan `playwright-core`.
 
+## Foto demo
+
+Foto produk di `public/gambar-produk/` adalah gambar nyata dari Unsplash yang dipakai sebagai contoh pada data awal. Foto tersebut mengikuti Unsplash License dan bukan bagian dari lisensi MIT kode sumber ini. Gambar yang diunggah petugas disimpan terpisah di `public/unggahan/`.
+
 ## Lisensi
 
 MIT. Lihat berkas `LICENSE`.

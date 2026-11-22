@@ -9,7 +9,7 @@ module Publik
         telepon: pengaturan.telepon,
         gambar_qris: pengaturan.gambar_qris,
         pajak_persen: pengaturan.persen_pajak,
-        biaya_layanan_persen: pengaturan.persen_biaya_layanan
+        biaya_layanan_persen: pengaturan.biaya_layanan_persen
       }
     end
 
@@ -18,10 +18,27 @@ module Publik
     end
 
     def foto_produk
-      kirim_gambar(params[:nama])
+      nama = nama_dari_rute
+
+      [["gambar-produk", :aman_nama_statis], ["unggahan", :aman_nama_berkas]].each do |direktori, sanitasi|
+        aman = send(sanitasi, nama)
+        next if aman.blank?
+
+        path = Rails.root.join("public", direktori, aman)
+        next unless File.file?(path)
+
+        return send_file path, type: tipe_gambar(aman), disposition: :inline
+      end
+
+      head :not_found
     end
 
     private
+
+    # Rails memisahkan ekstensi dari parameter :nama menjadi params[:format].
+    def nama_dari_rute
+      [params[:nama], params[:format]].compact.join(".")
+    end
 
     def kirim_gambar(nama)
       aman = aman_nama_berkas(nama)
@@ -31,6 +48,14 @@ module Publik
       return head :not_found unless File.file?(path)
 
       send_file path, type: tipe_gambar(aman), disposition: :inline
+    end
+
+    # Nama berkas bawaan tidak memakai awalan hash seperti berkas unggahan.
+    def aman_nama_statis(nama)
+      aman = File.basename(nama.to_s)
+      return nil unless aman.match?(/\A[a-z0-9-]+\.(png|jpg|jpeg|webp)\z/)
+
+      aman
     end
 
     def tipe_gambar(nama)

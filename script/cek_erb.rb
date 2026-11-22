@@ -5,7 +5,8 @@ Dir.glob("app/views/**/*.erb").sort.each do |path|
   sumber = File.read(path)
   begin
     kode = ActionView::Template::Handlers::ERB.erb_implementation.new(sumber, trim: true).src
-    RubyVM::InstructionSequence.compile(kode)
+    # Layout memakai yield, jadi kode harus dikompilasi di dalam method.
+    RubyVM::InstructionSequence.compile("def __cek_template__\n#{kode}\nend")
   rescue SyntaxError => e
     puts "GAGAL #{path}: #{e.message.lines.first(2).join.strip}"
   rescue StandardError => e

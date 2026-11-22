@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
   <head>
-    <title><%= content_for?(:title) ? yield(:title) : "Tableflow-Scan — Pesan dari Meja Anda" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "Tableflow-Scan | Pesan dari Meja Anda" %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="description" content="Pesan makanan dan minuman langsung dari meja Anda. Cepat, jelas, dan tanpa antre.">
-    <meta name="theme-color" content="#16232E">
+    <meta name="theme-color" content="#0f1c2a">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -24,7 +24,7 @@
         <%= link_to root_path, class: "flex items-center gap-2.5" do %>
           <%= tag.img src: "/logo-tableflow.svg", alt: "Tableflow-Scan", class: "h-9 w-9" %>
           <span class="leading-tight">
-            <span class="block judul-display text-[15px] text-tinta">Tableflow<span class="text-terakota">-Scan</span></span>
+            <span class="block judul-display text-[15px] text-tinta">Tableflow<span class="text-aksen">-Scan</span></span>
             <span class="block text-[10px] font-semibold uppercase tracking-[0.18em] text-tinta/50">Pesan dari meja</span>
           </span>
         <% end %>
@@ -37,7 +37,7 @@
 
     <% if notice.present? %>
       <div class="mx-auto mt-4 max-w-5xl px-5">
-        <div class="flex items-center gap-3 rounded-xl border border-hijau/25 bg-[#e2f0ec] px-4 py-3 text-sm font-medium text-hijau">
+        <div class="flex items-center gap-3 rounded-xl border border-hijau/25 bg-[#e7f4ee] px-4 py-3 text-sm font-medium text-hijau">
           <%= ikon "centang-lingkar", kelas: "h-5 w-5 shrink-0" %>
           <%= notice %>
         </div>
@@ -45,7 +45,7 @@
     <% end %>
     <% if alert.present? %>
       <div class="mx-auto mt-4 max-w-5xl px-5">
-        <div class="flex items-center gap-3 rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm font-medium text-merah">
+        <div class="flex items-center gap-3 rounded-xl border border-merah/25 bg-[#fdecea] px-4 py-3 text-sm font-medium text-merah">
           <%= ikon "peringatan", kelas: "h-5 w-5 shrink-0" %>
           <%= alert %>
         </div>
@@ -56,7 +56,7 @@
 
     <footer class="mt-16 border-t border-garis py-8">
       <div class="mx-auto flex max-w-5xl flex-col gap-2 px-5 text-xs text-tinta/50 sm:flex-row sm:items-center sm:justify-between">
-        <span>Tableflow-Scan — sistem pemesanan meja berbasis kode QR.</span>
+        <span>Tableflow-Scan | sistem pemesanan meja berbasis kode QR.</span>
         <span>Dibangun dengan Ruby on Rails.</span>
       </div>
     </footer>

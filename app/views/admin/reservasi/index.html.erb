@@ -1,8 +1,8 @@
-<% content_for :title, "Reservasi — Panel Tableflow-Scan" %>
+<% content_for :title, "Reservasi | Panel Tableflow-Scan" %>
 
 <div class="flex flex-wrap items-end justify-between gap-3">
   <div>
-    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Operasional</p>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Operasional</p>
     <h1 class="judul-display mt-1 text-3xl">Reservasi</h1>
   </div>
   <%= link_to new_admin_reservasi_path, class: "tombol tombol-gelap !text-xs" do %><%= ikon "tambah", kelas: "h-4 w-4" %> Reservasi baru<% end %>
@@ -17,13 +17,13 @@
           <% @reservasi.each do |reservasi| %>
             <tr>
               <td class="font-bold"><%= link_to reservasi.nama_pelanggan, admin_reservasi_path(reservasi), class: "hover:underline" %></td>
-              <td><%= reservasi.nama_acara || "—" %></td>
+              <td><%= reservasi.nama_acara || "-" %></td>
               <td class="text-xs"><%= reservasi.tanggal_reservasi.in_time_zone("Asia/Jakarta").strftime("%d/%m/%Y %H:%M") %></td>
               <td><%= reservasi.jumlah_tamu %></td>
               <td><%= reservasi.meja&.nomor_meja || "Belum ditentukan" %></td>
               <td class="text-xs"><%= reservasi.deposit_lunas? ? "Lunas" : "Belum" %></td>
               <td><span class="lencana lencana-<%= reservasi.dikonfirmasi? ? 'hijau' : (reservasi.dibatalkan? ? 'merah' : 'emas') %>"><%= reservasi.status %></span></td>
-              <td><%= link_to "Edit", edit_admin_reservasi_path(reservasi), class: "text-xs font-bold text-terakota" %></td>
+              <td><%= link_to "Edit", edit_admin_reservasi_path(reservasi), class: "text-xs font-bold text-aksen" %></td>
             </tr>
           <% end %>
         </tbody>

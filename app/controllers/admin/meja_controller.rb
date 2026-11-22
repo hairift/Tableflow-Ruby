@@ -60,7 +60,7 @@ module Admin
     def qr
       url = "#{request.base_url}/t/#{@meja.token_qr}"
       qrcode = RQRCode::QRCode.new(url)
-      svg = qrcode.as_svg(module_size: 6, light: "#FFFFFF", dark: "#16232E")
+      svg = qrcode.as_svg(module_size: 6, light: "#FFFFFF", dark: "#0F1C2A")
       render plain: svg, content_type: "image/svg+xml"
     end
 

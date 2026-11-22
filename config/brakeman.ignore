@@ -1,0 +1,12 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "47eaa904334185fe6f9478d8c83ab0249512010a06caf0089688e79989f53934",
+      "note": "Nama berkas diubah Tableflow::Unggahan.nama_aman menjadi awalan heksacamat acak sebelum dipakai sebagai jalur."
+    },
+    {
+      "fingerprint": "6dfc5c53451fbb7f3a0c224c8cbff78b3bd59ea089429d03fe399ea9090d5af5",
+      "note": "Nama berkas diubah Tableflow::Unggahan.nama_aman menjadi awalan heksacamat acak sebelum dipakai sebagai jalur."
+    }
+  ]
+}

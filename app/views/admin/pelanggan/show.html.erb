@@ -1,4 +1,4 @@
-<% content_for :title, "#{@pelanggan.nama || @pelanggan.telepon} — Panel Tableflow-Scan" %>
+<% content_for :title, "#{@pelanggan.nama || @pelanggan.telepon} | Panel Tableflow-Scan" %>
 
 <div>
   <%= link_to admin_pelanggan_index_path, class: "text-xs font-semibold text-tinta/45" do %><%= ikon "kiri", kelas: "mr-1 inline h-3.5 w-3.5" %> Kembali<% end %>
@@ -7,8 +7,8 @@
 </div>
 
 <div class="mt-6 grid gap-4 sm:grid-cols-3">
-  <div class="kartu p-5"><p class="text-xs text-tinta/50">Total poin</p><p class="judul-display mt-2 text-3xl text-terakota"><%= @pelanggan.poin %></p></div>
-  <div class="kartu p-5"><p class="text-xs text-tinta/50">Tingkat</p><p class="judul-display mt-2 text-xl"><%= @pelanggan.tingkat_tertinggi&.min_poin || "—" %></p></div>
+  <div class="kartu p-5"><p class="text-xs text-tinta/50">Total poin</p><p class="judul-display mt-2 text-3xl text-aksen"><%= @pelanggan.poin %></p></div>
+  <div class="kartu p-5"><p class="text-xs text-tinta/50">Tingkat</p><p class="judul-display mt-2 text-xl"><%= @pelanggan.tingkat_tertinggi&.min_poin || "-" %></p></div>
   <div class="kartu p-5"><p class="text-xs text-tinta/50">Jumlah pesanan</p><p class="judul-display mt-2 text-3xl"><%= @pelanggan.pesanan.count %></p></div>
 </div>
 

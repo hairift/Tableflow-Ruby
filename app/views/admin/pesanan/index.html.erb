@@ -1,8 +1,8 @@
-<% content_for :title, "Pesanan — Panel Tableflow-Scan" %>
+<% content_for :title, "Pesanan | Panel Tableflow-Scan" %>
 
 <div class="flex flex-wrap items-end justify-between gap-3">
   <div>
-    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Operasional</p>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Operasional</p>
     <h1 class="judul-display mt-1 text-3xl">Pesanan</h1>
   </div>
   <div class="flex gap-2">
@@ -32,7 +32,7 @@
           <% @pesanan.each do |pesanan| %>
             <tr>
               <td class="font-bold"><%= pesanan.kode_pesanan %></td>
-              <td><%= pesanan.meja&.nomor_meja || pesanan.nama_pelanggan || "—" %></td>
+              <td><%= pesanan.meja&.nomor_meja || pesanan.nama_pelanggan || "-" %></td>
               <td class="text-xs uppercase"><%= pesanan.metode %></td>
               <td class="bilangan font-semibold">Rp <%= number_with_delimiter(pesanan.total_harga.to_i) %></td>
               <td>
@@ -44,7 +44,7 @@
                   else "biru" end %>"><%= pesanan.status.tr("_", " ") %></span>
               </td>
               <td class="text-xs text-tinta/50"><%= pesanan.created_at.in_time_zone("Asia/Jakarta").strftime("%d/%m %H:%M") %></td>
-              <td><%= link_to "Buka", admin_pesanan_path(pesanan), class: "text-xs font-bold text-terakota hover:underline" %></td>
+              <td><%= link_to "Buka", admin_pesanan_path(pesanan), class: "text-xs font-bold text-aksen hover:underline" %></td>
             </tr>
           <% end %>
         </tbody>

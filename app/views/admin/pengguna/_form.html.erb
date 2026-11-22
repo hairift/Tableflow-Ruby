@@ -1,6 +1,6 @@
 <%= form_with model: [:admin, pengguna], local: true, class: "space-y-4" do |form| %>
   <% if pengguna.errors.any? %>
-    <div class="rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm text-merah"><%= pengguna.errors.full_messages.join(", ") %></div>
+    <div class="rounded-xl border border-merah/25 bg-[#fdecea] px-4 py-3 text-sm text-merah"><%= pengguna.errors.full_messages.join(", ") %></div>
   <% end %>
   <div>
     <%= form.label :username, "Nama pengguna", class: "label-form" %>
@@ -20,7 +20,7 @@
       <%= form.password_field :pin, class: "kolom-form", autocomplete: "off", placeholder: "Kosongkan bila tidak diubah" %>
     </div>
   </div>
-  <label class="flex items-center gap-2 text-sm font-semibold"><%= form.check_box :aktif, class: "h-4 w-4 accent-terakota" %> Akun aktif</label>
+  <label class="flex items-center gap-2 text-sm font-semibold"><%= form.check_box :aktif, class: "h-4 w-4 accent-aksen" %> Akun aktif</label>
   <div class="flex gap-2 border-t border-garis pt-4">
     <%= form.button class: "tombol tombol-utama" do %><%= pengguna.persisted? ? "Simpan" : "Buat akun" %><% end %>
     <%= link_to "Batal", admin_pengguna_index_path, class: "tombol tombol-garis" %>

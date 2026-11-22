@@ -1,8 +1,8 @@
-<% content_for :title, "Riwayat aktivitas — Panel Tableflow-Scan" %>
+<% content_for :title, "Riwayat aktivitas | Panel Tableflow-Scan" %>
 
 <div class="flex flex-wrap items-end justify-between gap-3">
   <div>
-    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Audit</p>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Audit</p>
     <h1 class="judul-display mt-1 text-3xl">Riwayat aktivitas</h1>
   </div>
   <%= link_to admin_pesanan_index_path, class: "tombol tombol-garis !text-xs" do %>
@@ -22,7 +22,7 @@
               <td class="font-bold"><%= link_to catatan.pesanan.kode_pesanan, admin_pesanan_path(catatan.pesanan), class: "hover:underline" %></td>
               <td class="text-xs"><%= catatan.status_dari || "baru" %> → <strong><%= catatan.status_ke %></strong></td>
               <td><%= catatan.diubah_oleh&.username || "Sistem" %></td>
-              <td class="text-xs text-tinta/55"><%= catatan.catatan || "—" %></td>
+              <td class="text-xs text-tinta/55"><%= catatan.catatan || "-" %></td>
             </tr>
           <% end %>
         </tbody>

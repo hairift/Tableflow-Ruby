@@ -1,8 +1,8 @@
-<% content_for :title, "Kategori — Panel Tableflow-Scan" %>
+<% content_for :title, "Kategori | Panel Tableflow-Scan" %>
 
 <div class="flex flex-wrap items-end justify-between gap-3">
   <div>
-    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Menu</p>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Menu</p>
     <h1 class="judul-display mt-1 text-3xl">Kategori</h1>
   </div>
   <%= link_to new_admin_kategori_path, class: "tombol tombol-gelap !text-xs" do %>
@@ -18,7 +18,7 @@
         <tr>
           <td class="font-bold"><%= kategori.nama %></td>
           <td><%= kategori.urutan %></td>
-          <td><%= kategori.estimasi_menit ? "#{kategori.estimasi_menit} menit" : "—" %></td>
+          <td><%= kategori.estimasi_menit ? "#{kategori.estimasi_menit} menit" : "-" %></td>
           <td><%= kategori.produk.count %></td>
           <td><span class="lencana lencana-<%= kategori.aktif? ? 'hijau' : 'netral' %>"><%= kategori.aktif? ? "Aktif" : "Nonaktif" %></span></td>
           <td class="flex gap-3 text-xs font-bold">

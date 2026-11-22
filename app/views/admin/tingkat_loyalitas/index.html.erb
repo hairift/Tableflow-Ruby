@@ -1,8 +1,8 @@
-<% content_for :title, "Tingkat poin — Panel Tableflow-Scan" %>
+<% content_for :title, "Tingkat poin | Panel Tableflow-Scan" %>
 
 <div class="flex flex-wrap items-end justify-between gap-3">
   <div>
-    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Loyalitas</p>
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Loyalitas</p>
     <h1 class="judul-display mt-1 text-3xl">Tingkat poin</h1>
   </div>
   <%= link_to new_admin_tingkat_loyalitas_path, class: "tombol tombol-gelap !text-xs" do %><%= ikon "tambah", kelas: "h-4 w-4" %> Tambah tingkat<% end %>
@@ -17,7 +17,7 @@
       <% @tingkat.each do |tingkat| %>
         <tr>
           <td class="font-bold"><%= tingkat.min_poin %> poin</td>
-          <td class="font-extrabold text-terakota"><%= tingkat.persen_diskon %>%</td>
+          <td class="font-extrabold text-aksen"><%= tingkat.persen_diskon %>%</td>
           <td class="flex gap-3 text-xs font-bold">
             <%= link_to "Edit", edit_admin_tingkat_loyalitas_path(tingkat), class: "text-tinta/60" %>
             <%= button_to "Hapus", admin_tingkat_loyalitas_path(tingkat), method: :delete, class: "text-merah" %>

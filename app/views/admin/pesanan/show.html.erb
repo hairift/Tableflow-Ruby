@@ -1,8 +1,8 @@
-<% content_for :title, "#{@pesanan.kode_pesanan} — Panel Tableflow-Scan" %>
+<% content_for :title, "#{@pesanan.kode_pesanan} | Panel Tableflow-Scan" %>
 
 <div class="flex flex-wrap items-end justify-between gap-3">
   <div>
-    <%= link_to admin_pesanan_index_path, class: "text-xs font-semibold text-tinta/45 hover:text-terakota" do %>
+    <%= link_to admin_pesanan_index_path, class: "text-xs font-semibold text-tinta/45 hover:text-aksen" do %>
       <%= ikon "kiri", kelas: "mr-1 inline h-3.5 w-3.5" %> Kembali ke daftar
     <% end %>
     <h1 class="judul-display mt-2 text-3xl"><%= @pesanan.kode_pesanan %></h1>
@@ -42,7 +42,7 @@
       <div class="flex justify-between text-tinta/60"><span>Diskon</span><span class="bilangan">- Rp <%= number_with_delimiter(@pesanan.jumlah_diskon.to_i) %></span></div>
       <div class="flex justify-between text-tinta/60"><span>Pajak</span><span class="bilangan">Rp <%= number_with_delimiter(@pesanan.jumlah_pajak.to_i) %></span></div>
       <div class="flex justify-between text-tinta/60"><span>Biaya layanan</span><span class="bilangan">Rp <%= number_with_delimiter(@pesanan.jumlah_biaya_layanan.to_i) %></span></div>
-      <div class="flex justify-between border-t border-garis pt-2 text-base font-extrabold"><span>Total</span><span class="bilangan text-terakota">Rp <%= number_with_delimiter(@pesanan.total_harga.to_i) %></span></div>
+      <div class="flex justify-between border-t border-garis pt-2 text-base font-extrabold"><span>Total</span><span class="bilangan text-aksen">Rp <%= number_with_delimiter(@pesanan.total_harga.to_i) %></span></div>
     </div>
   </div>
 
@@ -58,7 +58,7 @@
           <% end %>
           <% if @pesanan.pembayaran.bukti_file.present? %>
             <div class="pt-2">
-              <%= link_to "/api/publik/gambar-qris/#{@pesanan.pembayaran.bukti_file}", target: "_blank", rel: "noopener", class: "text-xs font-bold text-terakota hover:underline" do %>
+              <%= link_to "/api/publik/gambar-qris/#{@pesanan.pembayaran.bukti_file}", target: "_blank", rel: "noopener", class: "text-xs font-bold text-aksen hover:underline" do %>
                 <%= ikon "mata", kelas: "mr-1 inline h-4 w-4" %> Lihat bukti transfer
               <% end %>
             </div>
@@ -100,7 +100,7 @@
         <% end %>
 
         <% if admin? && @pesanan.dapat_dibatalkan? %>
-          <details class="rounded-xl border border-merah/25 bg-[#fdf5f3] p-3">
+          <details class="rounded-xl border border-merah/25 bg-[#fdecea] p-3">
             <summary class="cursor-pointer text-xs font-bold text-merah">Batalkan pesanan</summary>
             <%= form_with url: batalkan_admin_pesanan_path(@pesanan), method: :patch, class: "mt-3 space-y-2" do |form| %>
               <%= form.text_field :alasan, placeholder: "Alasan pembatalan", required: true, class: "kolom-form !text-xs" %>

@@ -4,16 +4,16 @@
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-display: "Fraunces", Georgia, serif;
 
-  --color-tinta: #16232e;
-  --color-tinta-2: #223542;
-  --color-krim: #faf6ef;
-  --color-krim-2: #f1e9dc;
-  --color-garis: #e2d8c8;
-  --color-terakota: #e56b4f;
-  --color-terakota-gelap: #c4543a;
-  --color-emas: #d8a24a;
-  --color-hijau: #3f7d6e;
-  --color-merah: #b4463b;
+  --color-tinta: #0f1c2a;
+  --color-tinta-2: #1d2f40;
+  --color-krim: #f8fafc;
+  --color-krim-2: #eef3f8;
+  --color-garis: #e2e8f0;
+  --color-aksen: #0f766e;
+  --color-aksen-gelap: #115e59;
+  --color-emas: #b9862f;
+  --color-hijau: #15803d;
+  --color-merah: #d1493d;
 }
 
 :root {
@@ -69,12 +69,12 @@ body {
 }
 
 .tombol-utama {
-  background: var(--color-terakota);
+  background: var(--color-aksen);
   color: #ffffff;
 }
 
 .tombol-utama:hover {
-  background: var(--color-terakota-gelap);
+  background: var(--color-aksen-gelap);
 }
 
 .tombol-garis {
@@ -99,11 +99,11 @@ body {
 .tombol-bahaya {
   background: #ffffff;
   color: var(--color-merah);
-  border-color: #e9c9c4;
+  border-color: #f0c8c3;
 }
 
 .tombol-bahaya:hover {
-  background: #fdf1ef;
+  background: #fef2f2;
 }
 
 .label-form {
@@ -112,7 +112,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #6b7680;
+  color: #64748b;
   margin-bottom: 0.35rem;
 }
 
@@ -128,8 +128,8 @@ body {
 }
 
 .kolom-form:focus {
-  border-color: var(--color-terakota);
-  box-shadow: 0 0 0 3px rgba(229, 107, 79, 0.12);
+  border-color: var(--color-aksen);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
 }
 
 .tabel-data {
@@ -145,14 +145,14 @@ body {
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #6b7680;
+  color: #64748b;
   border-bottom: 1px solid var(--color-garis);
   white-space: nowrap;
 }
 
 .tabel-data td {
   padding: 0.75rem 0.9rem;
-  border-bottom: 1px solid #f0eae0;
+  border-bottom: 1px solid #eef2f7;
   vertical-align: middle;
 }
 
@@ -171,11 +171,11 @@ body {
   letter-spacing: 0.02em;
 }
 
-.lencana-netral { background: #f1e9dc; color: #5c6771; }
-.lencana-emas { background: #fbf0d9; color: #8a641d; }
-.lencana-hijau { background: #e2f0ec; color: #2f6459; }
-.lencana-merah { background: #fae3df; color: #9b3d33; }
-.lencana-biru { background: #e5edf4; color: #3d5f7d; }
+.lencana-netral { background: #eef2f7; color: #475569; }
+.lencana-emas { background: #fdf3dd; color: #8a641d; }
+.lencana-hijau { background: #e7f4ee; color: #166534; }
+.lencana-merah { background: #fdecea; color: #a33327; }
+.lencana-biru { background: #e8f0f8; color: #3d5f7d; }
 
 .bilangan {
   font-variant-numeric: tabular-nums;
@@ -190,4 +190,4 @@ body {
 /* Bilah gulir halus pada panel dengan konten panjang. */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #d8cabb; border-radius: 999px; border: 3px solid var(--color-krim); }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; border: 3px solid var(--color-krim); }

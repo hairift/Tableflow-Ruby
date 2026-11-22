@@ -1,6 +1,6 @@
 <%= form_with model: [:admin, produk], local: true, class: "space-y-6" do |form| %>
   <% if produk.errors.any? %>
-    <div class="rounded-xl border border-merah/25 bg-[#fae3df] px-4 py-3 text-sm text-merah"><%= produk.errors.full_messages.join(", ") %></div>
+    <div class="rounded-xl border border-merah/25 bg-[#fdecea] px-4 py-3 text-sm text-merah"><%= produk.errors.full_messages.join(", ") %></div>
   <% end %>
 
   <div class="grid gap-4 sm:grid-cols-2">
@@ -29,8 +29,8 @@
       <%= form.number_field :stok, min: 0, class: "kolom-form" %>
     </div>
     <div class="flex items-end gap-5 pb-2">
-      <label class="flex items-center gap-2 text-sm font-semibold"><%= form.check_box :lacak_stok, class: "h-4 w-4 accent-terakota" %> Lacak stok</label>
-      <label class="flex items-center gap-2 text-sm font-semibold"><%= form.check_box :tersedia, class: "h-4 w-4 accent-terakota" %> Tersedia</label>
+      <label class="flex items-center gap-2 text-sm font-semibold"><%= form.check_box :lacak_stok, class: "h-4 w-4 accent-aksen" %> Lacak stok</label>
+      <label class="flex items-center gap-2 text-sm font-semibold"><%= form.check_box :tersedia, class: "h-4 w-4 accent-aksen" %> Tersedia</label>
     </div>
   </div>
 
@@ -54,8 +54,8 @@
                 <%= grup.number_field :urutan, min: 0, class: "kolom-form" %>
               </div>
               <div class="flex items-end gap-4 pb-2">
-                <label class="flex items-center gap-1.5 text-xs font-semibold"><%= grup.check_box :wajib, class: "accent-terakota" %> Wajib</label>
-                <label class="flex items-center gap-1.5 text-xs font-semibold"><%= grup.check_box :ganda, class: "accent-terakota" %> Ganda</label>
+                <label class="flex items-center gap-1.5 text-xs font-semibold"><%= grup.check_box :wajib, class: "accent-aksen" %> Wajib</label>
+                <label class="flex items-center gap-1.5 text-xs font-semibold"><%= grup.check_box :ganda, class: "accent-aksen" %> Ganda</label>
               </div>
             </div>
             <div class="mt-3 border-t border-garis pt-3">
@@ -79,8 +79,8 @@
             <div class="sm:col-span-2"><label class="label-form">Nama grup</label><input type="text" name="produk[grup_varian_attributes][BARIS][nama]" class="kolom-form" placeholder="Ukuran"></div>
             <div><label class="label-form">Urutan</label><input type="number" name="produk[grup_varian_attributes][BARIS][urutan]" value="0" min="0" class="kolom-form"></div>
             <div class="flex items-end gap-4 pb-2">
-              <label class="flex items-center gap-1.5 text-xs font-semibold"><input type="checkbox" name="produk[grup_varian_attributes][BARIS][wajib]" value="1" class="accent-terakota"> Wajib</label>
-              <label class="flex items-center gap-1.5 text-xs font-semibold"><input type="checkbox" name="produk[grup_varian_attributes][BARIS][ganda]" value="1" class="accent-terakota"> Ganda</label>
+              <label class="flex items-center gap-1.5 text-xs font-semibold"><input type="checkbox" name="produk[grup_varian_attributes][BARIS][wajib]" value="1" class="accent-aksen"> Wajib</label>
+              <label class="flex items-center gap-1.5 text-xs font-semibold"><input type="checkbox" name="produk[grup_varian_attributes][BARIS][ganda]" value="1" class="accent-aksen"> Ganda</label>
             </div>
           </div>
           <div class="mt-3 border-t border-garis pt-3">

@@ -1,13 +1,13 @@
-<% content_for :title, "Webhook — Panel Tableflow-Scan" %>
+<% content_for :title, "Webhook | Panel Tableflow-Scan" %>
 
 <div>
-  <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-terakota">Pengelolaan</p>
+  <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-aksen">Pengelolaan</p>
   <h1 class="judul-display mt-1 text-3xl">Webhook</h1>
   <p class="mt-2 max-w-2xl text-sm text-tinta/55">Kirim notifikasi kejadian pesanan ke sistem lain. Setiap permintaan ditandatangani dengan HMAC-SHA256.</p>
 </div>
 
 <% if @rahasia_baru.present? %>
-  <div class="mt-6 rounded-xl border border-emas/40 bg-[#fbf0d9] px-5 py-4">
+  <div class="mt-6 rounded-xl border border-emas/40 bg-[#fdf3dd] px-5 py-4">
     <p class="text-sm font-bold">Rahasia penandatanganan webhook</p>
     <code class="mt-2 block break-all rounded-lg bg-white px-3 py-2 text-xs"><%= @rahasia_baru %></code>
     <p class="mt-2 text-[11px] text-tinta/55">Simpan rahasia ini untuk memverifikasi header X-Tableflow-Signature.</p>
@@ -25,7 +25,7 @@
       <div class="flex flex-wrap gap-4">
         <% Webhook::EVENT.each do |event| %>
           <label class="flex items-center gap-2 text-sm font-semibold">
-            <%= check_box_tag "event[]", event, true, class: "h-4 w-4 accent-terakota" %> <%= event %>
+            <%= check_box_tag "event[]", event, true, class: "h-4 w-4 accent-aksen" %> <%= event %>
           </label>
         <% end %>
       </div>
